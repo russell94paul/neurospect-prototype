@@ -1,0 +1,23 @@
+# === Core LLM Features ===
+openai>=1.0.0
+python-dotenv>=1.0.0
+
+# === UI & Frontend ===
+streamlit>=1.33.0
+streamlit-option-menu>=0.3.6  # Optional sidebar menu plugin
+
+# === Data Handling ===
+pandas>=2.0.0
+sqlalchemy>=2.0.0
+
+# === Prompt Formatting & Utilities ===
+tiktoken>=0.5.1               # Token count estimation for OpenAI prompts
+python-dateutil>=2.8.2
+markdown2>=2.4.10             # Optional: convert markdown to HTML
+
+# === (Optional) NLP for smarter analysis ===
+nltk>=3.8.1                   # Future phase: emotion/sentiment parsing
+
+# === Testing & Linting (optional but good practice) ===
+pytest>=7.0.0
+black>=24.0.0
