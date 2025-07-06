@@ -22,6 +22,7 @@ from ui.sections.perfomance_context import performance_context_ui
 from ui.sections.notes import render_notes_section
 from ui.sections.storage_settings import render_storage_settings
 from ui.sections.submit import render_submit_button
+from ui.view_trades import render_view_trades
 
 # === Page Setup ===
 render_header()
@@ -43,3 +44,7 @@ storage_mode = render_storage_settings()
 
 # Final Submission
 render_submit_button(trade_data, storage_mode)
+
+# Section: View Trades
+st.markdown("---")
+render_view_trades(storage_mode)
