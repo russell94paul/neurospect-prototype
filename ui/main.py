@@ -22,6 +22,8 @@ from ui.sections.perfomance_context import performance_context_ui
 from ui.sections.notes import render_notes_section
 from ui.sections.storage_settings import render_storage_settings
 from ui.sections.submit import render_submit_button
+from ui.sections.trade_feedback import enrich_trade_with_llm_feedback
+
 
 from ui.view_trades import render_view_trades
 from ui.screenshots import upload_screenshots
@@ -44,6 +46,9 @@ trade_data.update(render_notes_section())
 # Section: Upload Screenshots
 uploaded_image_paths = upload_screenshots()
 trade_data["screenshots"] = uploaded_image_paths
+
+# Section: LLM Feedback
+trade_data = enrich_trade_with_llm_feedback(trade_data)
 
 # Section: Storage Preference
 storage_mode = render_storage_settings()
