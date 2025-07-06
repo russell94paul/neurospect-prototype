@@ -1,7 +1,7 @@
 import streamlit as st
 from backend.storage import save_trade
 
-def render_submit_button(trade_data, storage_mode):
+def render_submit_button(trade_data, storage_mode, uploaded_image_paths=None):
     st.markdown("## ✅ Submit Trade")
 
     if st.button("Submit Trade"):
@@ -12,7 +12,11 @@ def render_submit_button(trade_data, storage_mode):
         if missing:
             st.error(f"Please fill in all required fields: {', '.join(missing)}")
             return False
-        
+
+        # Add screenshots if present
+        if uploaded_image_paths:
+            trade_data["screenshots"] = uploaded_image_paths
+
         # Save the trade using selected mode
         try:
             save_trade(trade_data, mode=storage_mode.lower())
