@@ -37,9 +37,20 @@ class TradeFeedbackPrompt:
 
     def __init__(self, trade_data: Dict[str, Any]):
         self.trade = trade_data
+        
+    @staticmethod
+    def _make_json_safe(obj):
+        if isinstance(obj, (int, float, str, bool)) or obj is None:
+            return obj
+        if isinstance(obj, (list, tuple)):
+            return [TradeFeedbackPrompt._make_json_safe(i) for i in obj]
+        if isinstance(obj, dict):
+            return {k: TradeFeedbackPrompt._make_json_safe(v) for k, v in obj.items()}
+        if hasattr(obj, "isoformat"):
+            return obj.isoformat()  # For date, datetime, time
+        return str(obj)
 
     def format_user_message(self) -> str:
-        # Only select informative fields for the LLM
         fields_to_include = [
             "trade_date", "direction", "entry_type", "risk_level", "execution_quality", "profit_points", "session",
             "account_type", "drawdown_proximity", "payout_proximity", "eval_progress", "days_left", "emotionally_driven",
@@ -47,7 +58,8 @@ class TradeFeedbackPrompt:
             "setup_grade", "prep_time", "sleep_quality", "caffeine", "distractions", "notes", "reflection"
         ]
         filtered = {k: self.trade.get(k) for k in fields_to_include if k in self.trade}
-        return json.dumps(filtered, indent=2)
+        safe_filtered = self._make_json_safe(filtered)
+        return json.dumps(safe_filtered, indent=2)
 
 
 # -------------------------

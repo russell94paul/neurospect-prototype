@@ -47,8 +47,6 @@ trade_data.update(render_notes_section())
 uploaded_image_paths = upload_screenshots()
 trade_data["screenshots"] = uploaded_image_paths
 
-# Section: LLM Feedback
-trade_data = enrich_trade_with_llm_feedback(trade_data)
 
 # Section: Storage Preference
 storage_mode = render_storage_settings()
