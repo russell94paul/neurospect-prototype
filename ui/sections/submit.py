@@ -1,4 +1,5 @@
 import streamlit as st
+from ui.sections.trade_feedback import enrich_trade_with_llm_feedback
 from backend.storage import save_trade
 
 def render_submit_button(trade_data, storage_mode, uploaded_image_paths=None):
@@ -16,6 +17,9 @@ def render_submit_button(trade_data, storage_mode, uploaded_image_paths=None):
         # Add screenshots if present
         if uploaded_image_paths:
             trade_data["screenshots"] = uploaded_image_paths
+            
+        # Section: LLM Feedback
+        trade_data = enrich_trade_with_llm_feedback(trade_data)
 
         # Save the trade using selected mode
         try:

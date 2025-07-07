@@ -38,6 +38,8 @@ Thumbs.db
 
 # --- Reports / Data Dumps ---
 *.csv
+*.jsonl
+*.png
 *.sqlite3
 *.db
 *.md~             # Backup temp files
