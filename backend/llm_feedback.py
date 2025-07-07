@@ -40,26 +40,32 @@ class TradeFeedbackPrompt:
         
     @staticmethod
     def _make_json_safe(obj):
-        if isinstance(obj, (int, float, str, bool)) or obj is None:
+        """Make all values safe for JSON encoding."""
+        if isinstance(obj, (int, float, bool)) or obj is None:
             return obj
+        if isinstance(obj, str):
+            return obj.strip() if obj.strip() else "N/A"
         if isinstance(obj, (list, tuple)):
-            return [TradeFeedbackPrompt._make_json_safe(i) for i in obj]
+            return [TradeFeedbackPrompt._make_json_safe(i) for i in obj] or "N/A"
         if isinstance(obj, dict):
-            return {k: TradeFeedbackPrompt._make_json_safe(v) for k, v in obj.items()}
+            return {str(k): TradeFeedbackPrompt._make_json_safe(v) for k, v in obj.items()} or "N/A"
         if hasattr(obj, "isoformat"):
-            return obj.isoformat()  # For date, datetime, time
+            return obj.isoformat()
         return str(obj)
 
     def format_user_message(self) -> str:
+        """Generate a consistent, deterministic JSON string for the GPT prompt."""
         fields_to_include = [
             "trade_date", "direction", "entry_type", "risk_level", "execution_quality", "profit_points", "session",
             "account_type", "drawdown_proximity", "payout_proximity", "eval_progress", "days_left", "emotionally_driven",
             "emotional_regulation", "routine_done", "reviewed_plan", "bias_prepped", "risk_today", "matches_plan",
             "setup_grade", "prep_time", "sleep_quality", "caffeine", "distractions", "notes", "reflection"
         ]
-        filtered = {k: self.trade.get(k) for k in fields_to_include if k in self.trade}
-        safe_filtered = self._make_json_safe(filtered)
-        return json.dumps(safe_filtered, indent=2)
+        filtered = {
+            k: self._make_json_safe(self.trade.get(k, "N/A"))
+            for k in sorted(fields_to_include)
+        }
+        return json.dumps(filtered, indent=2, sort_keys=True)
 
 
 # -------------------------
@@ -73,7 +79,7 @@ def get_trade_feedback(trade_data: Dict[str, Any]) -> Dict[str, Any]:
     try:
         response = openai.chat.completions.create(
             model="gpt-3.5-turbo",
-            temperature=0.5,
+            temperature=0.0,
             messages=[
                 {"role": "system", "content": prompt.SYSTEM_PROMPT},
                 {"role": "user", "content": prompt.format_user_message()}
