@@ -3,65 +3,38 @@ import os
 from pathlib import Path
 import streamlit as st
 
+from tabs.journal import journal_form
+from tabs.dashboard import trader_performance_index
+from tabs.reports import weekly_summary
+from tabs.self_review_lab import self_review_lab
+from tabs.performance_lab import performance_lab
+from tabs.trade_doctor import trade_doctor
+from tabs.drill_lab import drill_lab
+from tabs.setup_vault import setup_vault
+from tabs.social import social
+from tabs.settings import settings
+
+
+
 # Add project root to Python path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-# Streamlit config
-st.set_page_config(
-    page_title="NeuroSpect Trade Logger",
-    page_icon="🧠",
-    layout="wide"
-)
+st.set_page_config(page_title="NeuroSpect", layout="wide")
 
-# === Import UI Sections ===
-from ui.sections.header import render_header
-from ui.sections.trade_details import render_trade_execution_form
-from ui.sections.perfomance_context import performance_context_ui
-from ui.sections.notes import render_notes_section
-from ui.sections.storage_settings import render_storage_settings
-from ui.sections.submit import render_submit_button
-from ui.sections.trade_feedback import enrich_trade_with_llm_feedback
+# Tab Routing
+tab_options = {
+    "Dashboard": trader_performance_index.render,
+    "Journal Your Trade": journal_form.render,
+    "Reports": weekly_summary.render,
+    "Self Review Lab": self_review_lab.render,
+    "Performance Lab": performance_lab.render,
+    "Trade Doctor": trade_doctor.render,
+    "Drill Lab": drill_lab.render,
+    "Setup Vault": setup_vault.render,
+    "Social": social.render,
+    "Settings": settings.render,
+}
 
-from ui.view_trades import render_view_trades
-from ui.screenshots import upload_screenshots
-from ui.ai_performance_lab.weekly_summary_tab import render_weekly_summary  # NEW TAB
-
-# === Sidebar Navigation ===
-tab = st.sidebar.radio(
-    "📂 Select View",
-    ["Trade Logger", "AI Performance Lab"]
-)
-
-# === Tab: Trade Logger ===
-if tab == "Trade Logger":
-    render_header()
-
-    trade_data = {}  # Collect all user input
-
-    # Section: Trade Execution
-    trade_data.update(render_trade_execution_form())
-
-    # Section: Performance Context & Mindset
-    trade_data.update(performance_context_ui())
-
-    # Section: Notes & Reflection
-    trade_data.update(render_notes_section())
-
-    # Section: Upload Screenshots
-    uploaded_image_paths = upload_screenshots()
-    trade_data["screenshots"] = uploaded_image_paths
-
-    # Section: Storage Preference
-    storage_mode = render_storage_settings()
-
-    # Final Submission
-    render_submit_button(trade_data, storage_mode)
-
-    # View Trades
-    st.markdown("---")
-    render_view_trades(storage_mode)
-
-# === Tab: AI Performance Lab ===
-elif tab == "AI Performance Lab":
-    render_weekly_summary()
+selected_tab = st.sidebar.selectbox("Navigation", list(tab_options.keys()))
+tab_options[selected_tab]()
