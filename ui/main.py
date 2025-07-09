@@ -1,4 +1,3 @@
-
 import sys
 import os
 from pathlib import Path
@@ -24,36 +23,45 @@ from ui.sections.storage_settings import render_storage_settings
 from ui.sections.submit import render_submit_button
 from ui.sections.trade_feedback import enrich_trade_with_llm_feedback
 
-
 from ui.view_trades import render_view_trades
 from ui.screenshots import upload_screenshots
+from ui.ai_performance_lab.weekly_summary_tab import render_weekly_summary  # NEW TAB
 
-# === Page Setup ===
-render_header()
+# === Sidebar Navigation ===
+tab = st.sidebar.radio(
+    "📂 Select View",
+    ["Trade Logger", "AI Performance Lab"]
+)
 
-# === Collect Input Sections ===
-trade_data = {}  # Empty dict to hold all user input
+# === Tab: Trade Logger ===
+if tab == "Trade Logger":
+    render_header()
 
-# Section: Trade Execution
-trade_data.update(render_trade_execution_form())
+    trade_data = {}  # Collect all user input
 
-# Section: Performance Context & Mindset
-trade_data.update(performance_context_ui())
+    # Section: Trade Execution
+    trade_data.update(render_trade_execution_form())
 
-# Section: Notes & Reflection
-trade_data.update(render_notes_section())
+    # Section: Performance Context & Mindset
+    trade_data.update(performance_context_ui())
 
-# Section: Upload Screenshots
-uploaded_image_paths = upload_screenshots()
-trade_data["screenshots"] = uploaded_image_paths
+    # Section: Notes & Reflection
+    trade_data.update(render_notes_section())
 
+    # Section: Upload Screenshots
+    uploaded_image_paths = upload_screenshots()
+    trade_data["screenshots"] = uploaded_image_paths
 
-# Section: Storage Preference
-storage_mode = render_storage_settings()
+    # Section: Storage Preference
+    storage_mode = render_storage_settings()
 
-# Final Submission
-render_submit_button(trade_data, storage_mode)
+    # Final Submission
+    render_submit_button(trade_data, storage_mode)
 
-# Section: View Trades
-st.markdown("---")
-render_view_trades(storage_mode)
+    # View Trades
+    st.markdown("---")
+    render_view_trades(storage_mode)
+
+# === Tab: AI Performance Lab ===
+elif tab == "AI Performance Lab":
+    render_weekly_summary()
