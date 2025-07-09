@@ -3,9 +3,9 @@ import os
 from pathlib import Path
 import streamlit as st
 
-from tabs.journal import journal_form
-from tabs.dashboard import trader_performance_index
-from tabs.reports import weekly_summary
+from tabs.journal import journal
+from tabs.dashboard import dashboard
+from tabs.reports import reports
 from tabs.self_review_lab import self_review_lab
 from tabs.performance_lab import performance_lab
 from tabs.trade_doctor import trade_doctor
@@ -24,9 +24,9 @@ st.set_page_config(page_title="NeuroSpect", layout="wide")
 
 # Tab Routing
 tab_options = {
-    "Dashboard": trader_performance_index.render,
-    "Journal Your Trade": journal_form.render,
-    "Reports": weekly_summary.render,
+    "Dashboard": dashboard.render,
+    "Journal Your Trade": journal.render,
+    "Reports": reports.render,
     "Self Review Lab": self_review_lab.render,
     "Performance Lab": performance_lab.render,
     "Trade Doctor": trade_doctor.render,
