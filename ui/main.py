@@ -1,16 +1,15 @@
 from nicegui import ui
-from tabs import (
-    dashboard,
-    journal,
-    reports,
-    self_review_lab,
-    performance_lab,
-    trade_doctor,
-    drill_lab,
-    setup_vault,
-    social,
-    settings
-)
+
+from tabs.dashboard import dashboard
+from tabs.journal import journal
+from tabs.reports import reports
+from tabs.self_review_lab import self_review_lab
+from tabs.performance_lab import performance_lab
+from tabs.trade_doctor import trade_doctor
+from tabs.drill_lab import drill_lab
+from tabs.setup_vault import setup_vault
+from tabs.social import social
+from tabs.settings import settings
 
 # -------- Global Routing State --------
 current_tab = {'name': 'Home'}
