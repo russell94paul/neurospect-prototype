@@ -21,78 +21,78 @@ def layout_shell():
             ui.label('🧠 NeuroSpect').classes('text-2xl font-bold tracking-tight')
             ui.button(icon='account_circle').props('flat color=white').tooltip('Profile')
 
-# -------- Sidebar Navigation --------
-def sidebar_nav():
-    tab_labels = [
-        ('🏠 Home', 'Home'),
-        ('📊 Dashboard', 'Dashboard'),
-        ('📓 Journal', 'Journal Your Trade'),
-        ('📅 Reports', 'Reports'),
-        ('🧠 Self Review Lab', 'Self Review Lab'),
-        ('🧪 Performance Lab', 'Performance Lab'),
-        ('🩺 Trade Doctor', 'Trade Doctor'),
-        ('🎯 Drill Lab', 'Drill Lab'),
-        ('🔐 Setup Vault', 'Setup Vault'),
-        ('👥 Social', 'Social'),
-        ('⚙️ Settings', 'Settings'),
-    ]
+# -------- Header Navigation --------
+def header_nav():
+    with ui.header().classes('bg-[#101010] text-white shadow-md z-50'):
+        with ui.row().classes('items-center justify-between w-full px-6 py-3'):
 
-    with ui.left_drawer().classes('bg-[#151515] text-white pt-6'):
-        for icon_label, name in tab_labels:
-            ui.button(icon_label, on_click=lambda n=name: switch_tab(n)) \
-                .classes('w-full justify-start text-left text-md font-semibold px-4 py-2 hover:bg-[#222] transition-all')
+            # Left: Logo
+            ui.label('🧠 NeuroSpect').classes('text-2xl font-bold tracking-widest text-purple-300')
 
-# -------- Home Page w/ Tiles --------
+            # Center: Navigation
+            with ui.row().classes('gap-4'):
+                nav_items = [
+                    ("Journal", "Journal Your Trade"),
+                    ("Dashboard", "Dashboard"),
+                    ("Labs", "Performance Lab"),
+                    ("Reports", "Reports"),
+                    ("Settings", "Settings"),
+                ]
+                for label, tab_key in nav_items:
+                    ui.button(label, on_click=lambda k=tab_key: switch_tab(k)) \
+                        .props('flat color=white') \
+                        .classes('hover:text-purple-400 text-md transition')
+
+            # Right: Profile
+            ui.button(icon='account_circle').props('flat color=white').tooltip('Profile')
+
 def render_home():
-    with ui.row().classes('gap-8'):
+    # -------- Background + Top Panel Layout --------
+    ui.add_head_html('<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">')
+    ui.add_body_html('<style>body { font-family: "Orbitron", sans-serif; }</style>')
 
-        # -------- Left: Status Panels --------
-        with ui.column().classes('w-1/2'):
-            ui.label('🧠 NeuroSpect Command Center').classes('text-3xl font-bold text-white')
-            ui.label('Track your state. Prep your edge. Execute clean.').classes('text-md text-gray-400 mb-4')
+    with ui.column().classes('items-center text-white w-full gap-8'):
 
-            def status_card(title, subtitle, icon):
-                with ui.card().classes('w-full bg-[#1a1a1a] text-white mb-4 shadow-lg'):
-                    with ui.row().classes('items-center justify-between px-4 py-2'):
-                        with ui.column():
-                            ui.label(title).classes('text-lg font-semibold')
-                            ui.label(subtitle).classes('text-sm text-gray-400')
-                        ui.icon(icon).classes('text-2xl text-blue-400')
+        # -- Neural Signals Panel --
+        with ui.row().classes('w-full justify-around px-6 pt-6'):
+            def signal_box(title, value, icon):
+                with ui.card().classes('bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-white w-64 shadow-md hover:scale-105 transition'):
+                    with ui.column().classes('p-4 items-start'):
+                        ui.icon(icon).classes('text-blue-400 text-2xl')
+                        ui.label(title).classes('text-sm text-gray-400')
+                        ui.label(value).classes('text-xl font-bold text-purple-300')
 
-            status_card("🧪 MindState: Optimal", "Focus good • Sleep solid", "psychology")
-            status_card("🔥 Streak: 3W • Risk Zone: Safe", "Last: Clean scalp in NY Open", "trending_up")
-            status_card("⚠️ Regime Warning", "Volatility Shift Detected", "warning")
+            signal_box("MindScore", "7.8 / 10", "psychology")
+            signal_box("Edge Sync", "82% Aligned", "bolt")
+            signal_box("Regime", "High Volatility", "warning")
 
-        # -------- Right: Action Buttons --------
-        with ui.column().classes('w-1/2'):
-            ui.label('🚀 Quick Actions').classes('text-2xl font-semibold text-white mb-4')
+        # -- AI Summary Panel --
+        with ui.card().classes('w-[80%] bg-[#111] text-white shadow-lg'):
+            with ui.column().classes('p-6'):
+                ui.label("🧠 AI Insight:").classes('text-lg font-semibold text-blue-300 pb-2')
+                ui.label("“You’ve been most consistent when trading 10–20 minutes after NY open. Consider setting tighter risk today based on CPI volatility.”") \
+                    .classes('text-md text-gray-300 italic')
 
-            def action_group(title, items):
-                ui.label(title).classes('text-md text-gray-400 mt-2 mb-1')
-                with ui.row().classes('gap-2 flex-wrap'):
-                    for icon_label, tab_key in items:
-                        ui.button(icon_label, on_click=lambda t=tab_key: switch_tab(t)) \
-                            .props('outline color=white') \
-                            .classes('text-white border-white hover:bg-[#222] transition-all')
+        # -- Mission Control Grid --
+        with ui.column().classes('w-[85%] items-center'):
+            ui.label("🎯 Mission Control").classes('text-2xl font-bold text-purple-400 pb-2')
 
-            action_group("Trade Workflow", [
-                ("📓 Journal", "Journal Your Trade"),
-                ("📅 Reports", "Reports"),
-                ("📊 Dashboard", "Dashboard"),
-            ])
+            def control_btn(label, tab_name, icon):
+                ui.button(on_click=lambda: switch_tab(tab_name)) \
+                    .classes('w-48 h-20 m-2 rounded-xl text-white bg-gradient-to-br from-[#1f1f38] to-[#161627] hover:from-purple-700 hover:to-blue-600 transition shadow-xl') \
+                    .props(f'icon={icon} label="{label}"')
 
-            action_group("Mind & Review", [
-                ("🧠 Self Review Lab", "Self Review Lab"),
-                ("🧪 Performance Lab", "Performance Lab"),
-                ("🩺 Trade Doctor", "Trade Doctor"),
-            ])
-
-            action_group("Tools & Settings", [
-                ("🎯 Drill Lab", "Drill Lab"),
-                ("🔐 Setup Vault", "Setup Vault"),
-                ("👥 Social", "Social"),
-                ("⚙️ Settings", "Settings"),
-            ])
+            with ui.row().classes('justify-center flex-wrap'):
+                control_btn("Journal", "Journal Your Trade", "note_alt")
+                control_btn("Dashboard", "Dashboard", "dashboard")
+                control_btn("Reports", "Reports", "insights")
+                control_btn("Self Review Lab", "Self Review Lab", "psychology")
+                control_btn("Performance Lab", "Performance Lab", "science")
+                control_btn("Trade Doctor", "Trade Doctor", "healing")
+                control_btn("Drill Lab", "Drill Lab", "sports_mma")
+                control_btn("Setup Vault", "Setup Vault", "lock")
+                control_btn("Social", "Social", "group")
+                control_btn("Settings", "Settings", "settings")
 
 # -------- Tab Dispatcher --------
 def render_tab(tab_name):
@@ -117,9 +117,8 @@ def switch_tab(name):
 # -------- Main Page Routing --------
 @ui.page('/')
 def main_page():
-    layout_shell()
-    sidebar_nav()
-    with ui.column().classes('p-6 min-h-screen bg-[#0e0e0e]'):
+    header_nav()
+    with ui.column().classes('p-6 min-h-screen'):
         render_tab(current_tab['name'])
 
 # -------- Run App --------
