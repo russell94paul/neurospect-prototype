@@ -16,50 +16,83 @@ current_tab = {'name': 'Home'}
 
 # -------- Persistent Top Nav --------
 def layout_shell():
-    with ui.header().classes('bg-gray-900 text-white'):
-        with ui.row().classes('items-center justify-between w-full p-4'):
-            ui.label('🧠 NeuroSpect').classes('text-2xl font-bold')
-            ui.label('Where beats are currency').classes('italic text-sm text-gray-300')
-            ui.button(icon='account_circle').props('flat color=white')
+    with ui.header().classes('bg-[#101010] text-white shadow-md z-50'):
+        with ui.row().classes('items-center justify-between w-full px-6 py-3'):
+            ui.label('🧠 NeuroSpect').classes('text-2xl font-bold tracking-tight')
+            ui.button(icon='account_circle').props('flat color=white').tooltip('Profile')
 
 # -------- Sidebar Navigation --------
 def sidebar_nav():
     tab_labels = [
-        'Home',
-        'Dashboard',
-        'Journal Your Trade',
-        'Reports',
-        'Self Review Lab',
-        'Performance Lab',
-        'Trade Doctor',
-        'Drill Lab',
-        'Setup Vault',
-        'Social',
-        'Settings'
+        ('🏠 Home', 'Home'),
+        ('📊 Dashboard', 'Dashboard'),
+        ('📓 Journal', 'Journal Your Trade'),
+        ('📅 Reports', 'Reports'),
+        ('🧠 Self Review Lab', 'Self Review Lab'),
+        ('🧪 Performance Lab', 'Performance Lab'),
+        ('🩺 Trade Doctor', 'Trade Doctor'),
+        ('🎯 Drill Lab', 'Drill Lab'),
+        ('🔐 Setup Vault', 'Setup Vault'),
+        ('👥 Social', 'Social'),
+        ('⚙️ Settings', 'Settings'),
     ]
 
-    with ui.left_drawer().classes('bg-gray-800 text-white'):
-        for label in tab_labels:
-            ui.button(label, on_click=lambda l=label: switch_tab(l)).classes('w-full text-left')
+    with ui.left_drawer().classes('bg-[#151515] text-white pt-6'):
+        for icon_label, name in tab_labels:
+            ui.button(icon_label, on_click=lambda n=name: switch_tab(n)) \
+                .classes('w-full justify-start text-left text-md font-semibold px-4 py-2 hover:bg-[#222] transition-all')
 
 # -------- Home Page w/ Tiles --------
 def render_home():
-    ui.label('🧠 Welcome to NeuroSpect').classes('text-2xl font-bold p-4')
-    ui.label('Explore your tools and labs:').classes('p-2 text-sm text-gray-500')
+    with ui.row().classes('gap-8'):
 
-    def tile(label, target):
-        with ui.card().classes('w-64 m-2 cursor-pointer hover:shadow-lg'):
-            ui.label(label).classes('text-lg font-bold p-4 text-center')
-            ui.button('Open', on_click=lambda: switch_tab(target)).classes('mx-auto')
+        # -------- Left: Status Panels --------
+        with ui.column().classes('w-1/2'):
+            ui.label('🧠 NeuroSpect Command Center').classes('text-3xl font-bold text-white')
+            ui.label('Track your state. Prep your edge. Execute clean.').classes('text-md text-gray-400 mb-4')
 
-    for row in [
-        [("📊 Dashboard", "Dashboard"), ("📓 Journal", "Journal Your Trade"), ("📅 Reports", "Reports")],
-        [("🧠 Performance Lab", "Performance Lab"), ("🩺 Trade Doctor", "Trade Doctor"), ("🎯 Drill Lab", "Drill Lab")],
-        [("🔐 Setup Vault", "Setup Vault"), ("👥 Social", "Social"), ("⚙️ Settings", "Settings")],
-    ]:
-        with ui.row().classes('p-2'):
-            for label, key in row:
-                tile(label, key)
+            def status_card(title, subtitle, icon):
+                with ui.card().classes('w-full bg-[#1a1a1a] text-white mb-4 shadow-lg'):
+                    with ui.row().classes('items-center justify-between px-4 py-2'):
+                        with ui.column():
+                            ui.label(title).classes('text-lg font-semibold')
+                            ui.label(subtitle).classes('text-sm text-gray-400')
+                        ui.icon(icon).classes('text-2xl text-blue-400')
+
+            status_card("🧪 MindState: Optimal", "Focus good • Sleep solid", "psychology")
+            status_card("🔥 Streak: 3W • Risk Zone: Safe", "Last: Clean scalp in NY Open", "trending_up")
+            status_card("⚠️ Regime Warning", "Volatility Shift Detected", "warning")
+
+        # -------- Right: Action Buttons --------
+        with ui.column().classes('w-1/2'):
+            ui.label('🚀 Quick Actions').classes('text-2xl font-semibold text-white mb-4')
+
+            def action_group(title, items):
+                ui.label(title).classes('text-md text-gray-400 mt-2 mb-1')
+                with ui.row().classes('gap-2 flex-wrap'):
+                    for icon_label, tab_key in items:
+                        ui.button(icon_label, on_click=lambda t=tab_key: switch_tab(t)) \
+                            .props('outline color=white') \
+                            .classes('text-white border-white hover:bg-[#222] transition-all')
+
+            action_group("Trade Workflow", [
+                ("📓 Journal", "Journal Your Trade"),
+                ("📅 Reports", "Reports"),
+                ("📊 Dashboard", "Dashboard"),
+            ])
+
+            action_group("Mind & Review", [
+                ("🧠 Self Review Lab", "Self Review Lab"),
+                ("🧪 Performance Lab", "Performance Lab"),
+                ("🩺 Trade Doctor", "Trade Doctor"),
+            ])
+
+            action_group("Tools & Settings", [
+                ("🎯 Drill Lab", "Drill Lab"),
+                ("🔐 Setup Vault", "Setup Vault"),
+                ("👥 Social", "Social"),
+                ("⚙️ Settings", "Settings"),
+            ])
 
 # -------- Tab Dispatcher --------
 def render_tab(tab_name):
@@ -79,15 +112,15 @@ def render_tab(tab_name):
 # -------- Tab Switching Logic --------
 def switch_tab(name):
     current_tab['name'] = name
-    ui.open('/')  # Reroute to main page
+    ui.open('/')
 
 # -------- Main Page Routing --------
 @ui.page('/')
 def main_page():
     layout_shell()
     sidebar_nav()
-    with ui.column().classes('p-4'):
+    with ui.column().classes('p-6 min-h-screen bg-[#0e0e0e]'):
         render_tab(current_tab['name'])
 
 # -------- Run App --------
-ui.run(title='NeuroSpect Dashboard', dark=True)
+ui.run(title='NeuroSpect', dark=True)
