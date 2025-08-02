@@ -12,7 +12,7 @@ from tabs.social import social
 from tabs.settings import settings
 
 # -------- Global Routing State --------
-current_tab = {'name': 'Home'}
+current_tab = 'Home'
 
 # -------- Persistent Top Nav --------
 def layout_shell():
@@ -32,7 +32,7 @@ def header_nav():
             # Center: Navigation
             with ui.row().classes('gap-4'):
                 nav_items = [
-                    ("Journal", "Journal Your Trade"),
+                    ("Journal", "Journal"),
                     ("Dashboard", "Dashboard"),
                     ("Labs", "Performance Lab"),
                     ("Reports", "Reports"),
@@ -46,11 +46,8 @@ def header_nav():
             # Right: Profile
             ui.button(icon='account_circle').props('flat color=white').tooltip('Profile')
 
+# -------- Home Layout --------
 def render_home():
-    # -------- Background + Top Panel Layout --------
-    ui.add_head_html('<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">')
-    ui.add_body_html('<style>body { font-family: "Orbitron", sans-serif; }</style>')
-
     with ui.column().classes('items-center text-white w-full gap-8'):
 
         # -- Neural Signals Panel --
@@ -83,7 +80,7 @@ def render_home():
                     .props(f'icon={icon} label="{label}"')
 
             with ui.row().classes('justify-center flex-wrap'):
-                control_btn("Journal", "Journal Your Trade", "note_alt")
+                control_btn("Journal", "Journal", "note_alt")
                 control_btn("Dashboard", "Dashboard", "dashboard")
                 control_btn("Reports", "Reports", "insights")
                 control_btn("Self Review Lab", "Self Review Lab", "psychology")
@@ -96,9 +93,12 @@ def render_home():
 
 # -------- Tab Dispatcher --------
 def render_tab(tab_name):
+    print(f"[DEBUG] render_tab() called with: {tab_name}")
     match tab_name:
         case 'Dashboard': dashboard.render()
-        case 'Journal Your Trade': journal.render()
+        case 'Journal': 
+            print("[DEBUG] matched 'Journal Your Trade' – calling journal.render()") 
+            journal.render()
         case 'Reports': reports.render()
         case 'Self Review Lab': self_review_lab.render()
         case 'Performance Lab': performance_lab.render()
@@ -111,15 +111,74 @@ def render_tab(tab_name):
 
 # -------- Tab Switching Logic --------
 def switch_tab(name):
-    current_tab['name'] = name
-    ui.open('/')
+    global current_tab
+    print(f"[DEBUG] Switching to tab: {name}")
+    current_tab = name
+    page_body.refresh()
+
+# -------- Refreshable Main Content --------
+@ui.refreshable
+def page_body():
+    render_tab(current_tab)
 
 # -------- Main Page Routing --------
 @ui.page('/')
 def main_page():
+    # Inject global styling for font, scrollbars, layout fixes, and debug outlines
+    ui.add_head_html('''
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+        html, body {
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-y: auto;
+            background-color: #0a0a0a;
+        }
+
+        /* ✅ FIX: Remove Quasar layout interference */
+        .q-page-container {
+            padding-top: 0px !important;
+        }
+        .q-page {
+            min-height: unset !important;
+            overflow: visible !important;
+        }
+
+        /* Scrollbar styling */
+        .custom-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background-color: #555;
+            border-radius: 8px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background-color: #111;
+        }
+        .custom-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: #555 #111;
+        }
+
+        /* ✅ DEBUG: Visual outlines to detect nested scrolls */
+        html, body, .q-page, .q-page-container, .q-layout, .nicegui-content, .nicegui-page {
+            outline: 2px dashed limegreen !important;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+        </style>
+    ''')
+
+    # Top navigation bar outside scroll
     header_nav()
-    with ui.column().classes('p-6 min-h-screen'):
-        render_tab(current_tab['name'])
+
+    # Scrollable content area
+    with ui.element('div').classes('px-4 py-6 custom-scroll'):
+        page_body()
 
 # -------- Run App --------
 ui.run(title='NeuroSpect', dark=True)

@@ -1,4 +1,6 @@
-import streamlit as st
+from nicegui import ui
+from components.sticky_section import sticky_section
+
 from tabs.journal import (
     journal_form,
     screenshots,
@@ -9,27 +11,61 @@ from tabs.journal import (
     view_trades
 )
 
+selected_tab = {'value': 'form'}
+
 def render():
-    st.title("📓 Journal Your Trade")
-    st.write("Log your trades in a structured format, get AI feedback, and track emotional patterns.")
 
-    with st.expander("📝 Trade Journal Form"):
-        journal_form.render()
+    @ui.refreshable
+    def tab_bar():
+        with ui.column().classes('w-full'):
+            ui.label("📓 Journal Your Trade").classes("text-xl font-bold text-purple-400 pl-2 pb-1")
 
-    with st.expander("📷 Screenshots"):
-        screenshots.render()
+            with ui.row().classes(
+                'justify-center gap-2 items-center px-2 py-2'
+            ):
+                def tab_btn(label: str, key: str, icon: str):
+                    def on_click():
+                        selected_tab['value'] = key
+                        tab_bar.refresh()
+                        section.refresh()
 
-    with st.expander("📊 AI Trade Feedback"):
-        trade_feedback.render()
+                    is_active = selected_tab['value'] == key
+                    ui.button(icon=icon, text=label, on_click=on_click).classes(
+                        'h-14 px-6 text-nowrap text-white font-semibold rounded-xl shadow-md transition-all '
+                        'hover:scale-[1.02] '
+                        + (
+                            'bg-gradient-to-br from-purple-500 to-blue-500'
+                            if is_active else
+                            'bg-gradient-to-br from-[#1f1f38] to-[#161627]'
+                        )
+                    ).props('flat')
 
-    with st.expander("🧱 TradeFlex Card Generator"):
-        tradeflex_generator.render()
+                tab_btn('Journal Form', 'form', 'note_alt')
+                tab_btn('Screenshots', 'shots', 'photo')
+                tab_btn('AI Feedback', 'feedback', 'insights')
+                tab_btn('TradeFlex Generator', 'generator', 'memory')
+                tab_btn('Export to Mirror', 'mirror', 'sync')
+                tab_btn('Audio Debrief', 'audio', 'mic')
+                tab_btn('View Past Trades', 'view', 'folder')
 
-    with st.expander("🔄 Export to Mirror Mode"):
-        export_to_mirror_toggle.render()
+    @ui.refreshable
+    def section():
+        match selected_tab['value']:
+            case 'form':
+                journal_form.render()
+            case 'shots':
+                screenshots.render()
+            case 'feedback':
+                trade_feedback.render()
+            case 'generator':
+                tradeflex_generator.render()
+            case 'mirror':
+                export_to_mirror_toggle.render()
+            case 'audio':
+                audio_debrief.render()
+            case 'view':
+                view_trades.render()
 
-    with st.expander("🎤 Audio Debrief & Tone Analysis"):
-        audio_debrief.render()
-
-    with st.expander("🗂️ View Past Trades"):
-        view_trades.render()
+    # The layout handles scroll and stickiness — no extra containers
+    with sticky_section(tab_bar):
+        section()
