@@ -4,6 +4,7 @@ inputs = {}
 
 def render():
     ui.label('📈 Market Context').classes('text-lg text-purple-300 font-semibold')
+    ui.separator().classes('my-2')
 
     with ui.element('div').classes('flex flex-row gap-6 !flex-nowrap !items-start w-full'):
 
