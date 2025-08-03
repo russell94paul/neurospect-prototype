@@ -1,5 +1,5 @@
 import streamlit as st
-from tabs.performance_lab import spia, amrp, setup_consistency, bias_accuracy, execution_quality, decision_friction
+from ui.tabs.performance_lab import spia, amrp, setup_consistency, bias_accuracy, execution_quality, decision_friction
 
 def render():
     st.title("📊 Performance Lab")

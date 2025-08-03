@@ -1,5 +1,5 @@
 from nicegui import ui
-from tabs.dashboard import (
+from ui.tabs.dashboard import (
     trader_performance_index,
     mindscore_widget,
     neurostreaks,

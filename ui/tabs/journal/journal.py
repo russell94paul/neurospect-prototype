@@ -1,7 +1,7 @@
 from nicegui import ui
-from components.sticky_section import sticky_section
+from ui.components.sticky_section import sticky_section
 
-from tabs.journal import (
+from ui.tabs.journal import (
     journal_form,
     screenshots,
     trade_feedback,

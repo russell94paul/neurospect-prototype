@@ -1,5 +1,5 @@
 import streamlit as st
-from tabs.self_review_lab import bias_tracker, emotion_heatmap, mirror_mode, voice_journaling
+from ui.tabs.self_review_lab import bias_tracker, emotion_heatmap, mirror_mode, voice_journaling
 
 def render():
     st.title("🧠 Self Review Lab")

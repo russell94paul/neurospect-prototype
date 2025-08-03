@@ -1,15 +1,15 @@
 from nicegui import ui
 
-from tabs.dashboard import dashboard
-from tabs.journal import journal
-from tabs.reports import reports
-from tabs.self_review_lab import self_review_lab
-from tabs.performance_lab import performance_lab
-from tabs.trade_doctor import trade_doctor
-from tabs.drill_lab import drill_lab
-from tabs.setup_vault import setup_vault
-from tabs.social import social
-from tabs.settings import settings
+from ui.tabs.dashboard import dashboard
+from ui.tabs.journal import journal
+from ui.tabs.reports import reports
+from ui.tabs.self_review_lab import self_review_lab
+from ui.tabs.performance_lab import performance_lab
+from ui.tabs.trade_doctor import trade_doctor
+from ui.tabs.drill_lab import drill_lab
+from ui.tabs.setup_vault import setup_vault
+from ui.tabs.social import social
+from ui.tabs.settings import settings
 
 # -------- Global Routing State --------
 current_tab = 'Home'

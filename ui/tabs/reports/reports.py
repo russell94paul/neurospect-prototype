@@ -1,5 +1,5 @@
 import streamlit as st
-from tabs.reports import weekly_summary, monthly_summary, yearly_summary
+from ui.tabs.reports import weekly_summary, monthly_summary, yearly_summary
 
 def render():
     st.title("📊 Reports")

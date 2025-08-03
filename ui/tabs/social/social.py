@@ -1,5 +1,5 @@
 import streamlit as st
-from tabs.social import accountability_ping, share_reports, comment_threads
+from ui.tabs.social import accountability_ping, share_reports, comment_threads
 
 def render():
     st.title("👥 Social & Discord")
