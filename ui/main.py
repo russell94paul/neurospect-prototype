@@ -180,5 +180,15 @@ def main_page():
     with ui.element('div').classes('px-4 py-6 custom-scroll'):
         page_body()
 
+# Code for debugging for column stacking issue    
+@ui.page('/testlayout')
+def test_layout():
+    with ui.element('div').classes('w-full p-8'):
+        with ui.element('div').classes('flex flex-row gap-6 bg-red-900 w-full !flex-nowrap !items-start'):
+            with ui.element('div').classes('w-1/2 bg-blue-500 p-4'):
+                ui.label('Left Column').classes('text-white')
+            with ui.element('div').classes('w-1/2 bg-green-500 p-4'):
+                ui.label('Right Column').classes('text-white')
+
 # -------- Run App --------
 ui.run(title='NeuroSpect', dark=True)

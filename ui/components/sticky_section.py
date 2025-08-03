@@ -5,18 +5,15 @@ def sticky_section(tabs: list[dict], on_tab_change: Callable[[int], None], defau
     current_index = {"value": default_index}
     button_refs = []
 
-    # 🎨 Global styles and animations
     ui.add_head_html("""
     <style>
     @keyframes fadeInUp {
       0% { opacity: 0; transform: translateY(4px); }
       100% { opacity: 1; transform: translateY(0); }
     }
-
     .animate-fade-in-up {
       animation: fadeInUp 0.8s ease-out forwards;
     }
-
     .stagger-1 { animation-delay: 0.05s; }
     .stagger-2 { animation-delay: 0.12s; }
     .stagger-3 { animation-delay: 0.19s; }
@@ -30,7 +27,6 @@ def sticky_section(tabs: list[dict], on_tab_change: Callable[[int], None], defau
       40%  { transform: scale(1.025); }
       100% { transform: scale(1); }
     }
-
     .bounce-selected {
       animation: bounceSubtle 300ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
@@ -39,7 +35,6 @@ def sticky_section(tabs: list[dict], on_tab_change: Callable[[int], None], defau
       from { opacity: 0; }
       to { opacity: 1; }
     }
-
     .animate-fade-in {
       animation: fadeIn 0.6s ease-in;
     }
@@ -59,8 +54,6 @@ def sticky_section(tabs: list[dict], on_tab_change: Callable[[int], None], defau
 
             with ui.column().classes('sticky top-[80px] z-50 px-0 pb-6'):
                 with ui.element('div').classes('relative w-full'):
-
-                    # 💠 Floating blurred tab panel
                     ui.element('div').classes(
                         'absolute inset-0 bg-black bg-opacity-90 backdrop-blur border border-gray-800 '
                         'z-[-1] rounded-xl shadow-xl ring-1 ring-white/10'
@@ -80,13 +73,10 @@ def sticky_section(tabs: list[dict], on_tab_change: Callable[[int], None], defau
                                         current_index["value"] = index
                                         tab_bar.refresh()
                                         render_tab(index)
-                                        ui.timer(0.05, lambda: move_indicator(index), once=True)
+                                        move_indicator(index)  # ✅ moved here (immediate call)
                                     return on_click
 
-                                # Entry cascade on first load
                                 entry_animation = f'animate-fade-in-up stagger-{i+1}' if first_render["value"] else ''
-
-                                # Bounce on click only for selected and nearby tabs
                                 is_near = abs(i - current_index["value"]) <= 1
                                 bounce_class = 'bounce-selected' if is_near and not first_render["value"] else ''
 
@@ -105,25 +95,21 @@ def sticky_section(tabs: list[dict], on_tab_change: Callable[[int], None], defau
                                 button.set_text(label)
                                 button_refs.append(button)
 
-                            # 🟪 Purple animated underline
                             ui.element('div').props('id=tab-indicator').classes(
                                 'absolute bottom-0 h-1 bg-purple-500 rounded transition-all duration-300 ease-in-out'
                             )
 
-        # Internal flag: only animate on first load
         first_render = {"value": True}
         tab_bar()
         first_render["value"] = False
 
-        # 📦 Content container below tab bar
         content_area = ui.column().classes('w-full px-4 py-4')
 
         def render_tab(index: int):
             content_area.clear()
             with content_area.classes('animate-fade-in'):
                 on_tab_change(index)
-
-        render_tab(current_index["value"])
+            move_indicator(index)  # ✅ ensure underline moves on content render too
 
     def move_indicator(index: int):
         js = f"""
@@ -138,5 +124,4 @@ def sticky_section(tabs: list[dict], on_tab_change: Callable[[int], None], defau
         """
         ui.run_javascript(js)
 
-    # Animate underline position on first render
     ui.timer(0.2, lambda: move_indicator(current_index["value"]), once=True)
