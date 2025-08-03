@@ -3,6 +3,7 @@ from pathlib import Path
 
 DB_PATH = Path(__file__).parent / 'journal.db'
 
+
 def init_db():
     with sqlite3.connect(DB_PATH) as conn:
         conn.execute('''
@@ -18,13 +19,14 @@ def init_db():
 
                 -- Section 2: Market Context
                 ht_bias TEXT,
-                daily_narrative TEXT,
+                market_structure TEXT,
+                key_levels TEXT,
                 killzone TEXT,
                 smt_present INTEGER,
                 pd_arrays TEXT,
                 liquidity_targeted TEXT,
                 mp_context TEXT,
-                vp_context TEXT,
+                vol_profile TEXT,
 
                 -- Section 3: Execution Details
                 direction TEXT,
@@ -84,6 +86,7 @@ def init_db():
         ''')
         conn.commit()
 
+
 def save_journal_entry(data: dict):
     with sqlite3.connect(DB_PATH) as conn:
         keys = ', '.join(data.keys())
@@ -91,3 +94,12 @@ def save_journal_entry(data: dict):
         values = tuple(data.values())
         conn.execute(f'INSERT INTO journal_entries ({keys}) VALUES ({placeholders})', values)
         conn.commit()
+
+
+def get_all_trades():
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM journal_entries ORDER BY datetime DESC')
+        rows = cursor.fetchall()
+        return [dict(row) for row in rows]

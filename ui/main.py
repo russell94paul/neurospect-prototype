@@ -93,12 +93,9 @@ def render_home():
 
 # -------- Tab Dispatcher --------
 def render_tab(tab_name):
-    print(f"[DEBUG] render_tab() called with: {tab_name}")
     match tab_name:
         case 'Dashboard': dashboard.render()
-        case 'Journal': 
-            print("[DEBUG] matched 'Journal Your Trade' – calling journal.render()") 
-            journal.render()
+        case 'Journal': journal.render()
         case 'Reports': reports.render()
         case 'Self Review Lab': self_review_lab.render()
         case 'Performance Lab': performance_lab.render()
@@ -112,7 +109,6 @@ def render_tab(tab_name):
 # -------- Tab Switching Logic --------
 def switch_tab(name):
     global current_tab
-    print(f"[DEBUG] Switching to tab: {name}")
     current_tab = name
     page_body.refresh()
 
@@ -124,7 +120,7 @@ def page_body():
 # -------- Main Page Routing --------
 @ui.page('/')
 def main_page():
-    # Inject global styling for font, scrollbars, layout fixes, and debug outlines
+    # Inject global styling
     ui.add_head_html('''
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
         <style>
@@ -137,7 +133,6 @@ def main_page():
             background-color: #0a0a0a;
         }
 
-        /* ✅ FIX: Remove Quasar layout interference */
         .q-page-container {
             padding-top: 0px !important;
         }
@@ -146,7 +141,6 @@ def main_page():
             overflow: visible !important;
         }
 
-        /* Scrollbar styling */
         .custom-scroll::-webkit-scrollbar {
             width: 8px;
         }
@@ -162,25 +156,18 @@ def main_page():
             scrollbar-color: #555 #111;
         }
 
-        /* ✅ DEBUG: Visual outlines to detect nested scrolls */
-        html, body, .q-page, .q-page-container, .q-layout, .nicegui-content, .nicegui-page {
-            outline: 2px dashed limegreen !important;
-        }
-
         * {
             box-sizing: border-box;
         }
         </style>
     ''')
 
-    # Top navigation bar outside scroll
     header_nav()
 
-    # Scrollable content area
     with ui.element('div').classes('px-4 py-6 custom-scroll'):
         page_body()
 
-# Code for debugging for column stacking issue    
+# -------- Optional Layout Debug Page --------
 @ui.page('/testlayout')
 def test_layout():
     with ui.element('div').classes('w-full p-8'):
