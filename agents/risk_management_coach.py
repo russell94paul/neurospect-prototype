@@ -1,10 +1,11 @@
 from agents.base import BaseCoach
 from utils.prompts import load_prompt, list_prompt_versions
 
-class PsychologyCoach(BaseCoach):
-    name = 'Psychology'
+class RiskManagementCoach(BaseCoach):
+    name = 'Risk Management'
+    category = "risk_management"
     version = 'v1'
-    prompt = load_prompt('psychology', 'v1')
+    prompt = load_prompt('risk_management', 'v1')
     
     @classmethod
     def available_versions(cls) -> list[str]:

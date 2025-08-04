@@ -1,16 +1,13 @@
 from pathlib import Path
 from utils.openai_client import call_openai
+from utils.prompts import load_prompt
 
 class BaseCoach:
     category = 'base'  # must be overridden in subclasses
 
     def __init__(self, version='v1'):
         self.version = version
-        self.prompt = self.load_prompt(version)
-
-    def load_prompt(self, version: str) -> str:
-        prompt_path = Path(__file__).parent.parent / 'prompts' / self.category / f'{version}.txt'
-        return prompt_path.read_text(encoding='utf-8')
+        self.prompt = load_prompt(self.category, version)
 
     def generate_feedback(self, trade: dict) -> str:
         input_text = self.format_input(trade)
