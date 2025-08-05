@@ -281,4 +281,4 @@ def landing_page():
             ui.html('<a class="prototype-link" href="/app">View Full Prototype →</a>')
 
 # -------- Run App --------
-ui.run(title='NeuroSpect', dark=True)
+ui.run(title='NeuroSpect',port=8080, dark=True)
