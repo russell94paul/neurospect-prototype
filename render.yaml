@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: neurospect
+    env: python
+    buildCommand: ""
+    startCommand: python -m ui.main.py
+    pythonVersion: 3.11.8
