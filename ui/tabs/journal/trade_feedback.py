@@ -16,14 +16,17 @@ def render():
         label='Prompt Version',
     ).classes('w-48 mb-4')
 
-    # Feedback card container
-    with ui.card().classes('bg-[#1a1a2e] text-white p-6 rounded-xl shadow-lg max-w-5xl w-full'):
+    # Feedback card container with glowing hover and pulse
+    with ui.card().classes(
+        'bg-[#0f0f1c] text-white p-6 rounded-2xl shadow-lg max-w-5xl w-full '
+        'transition-all duration-300 border border-purple-500 '
+        'hover:shadow-[0_0_25px_7px_rgba(168,85,247,0.8)] animate-pulse'
+    ):
         output_area = ui.markdown('⏳ *Waiting for analysis...*').classes('text-sm font-mono')
 
     def update_feedback(version):
         output_area.content = '⏳ *Analyzing entire trade history...*'
         try:
-            # Load prompt properly and assign it
             coach = PatternDetectionCoach(version)
 
             trades = get_all_trades()
@@ -39,9 +42,7 @@ def render():
         except Exception as e:
             output_area.content = f'❌ Error during feedback generation:\n```\n{str(e)}\n```'
 
-    # Wire dropdown version change
-    dropdown.on('update:model-value', lambda _: None)  # no auto-refresh on change
+    dropdown.on('update:model-value', lambda _: None)
 
-    # Run button
     ui.button('🚀 Run Feedback', on_click=lambda: update_feedback(dropdown.value)) \
         .classes('mt-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold px-4 py-2 rounded shadow-md hover:shadow-lg transition-all duration-300')
