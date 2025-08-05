@@ -1,6 +1,5 @@
 from nicegui import ui
 
-# -------- Import Tabs --------
 from ui.tabs.dashboard import dashboard
 from ui.tabs.journal import journal
 from ui.tabs.reports import reports
@@ -12,7 +11,7 @@ from ui.tabs.setup_vault import setup_vault
 from ui.tabs.social import social
 from ui.tabs.settings import settings
 
-# -------- Global State --------
+# -------- Global Routing State --------
 current_tab = 'Home'
 
 # -------- Header Navigation --------
@@ -93,14 +92,14 @@ def switch_tab(name):
     current_tab = name
     page_body.refresh()
 
-# -------- Refreshable Tab Renderer --------
+# -------- Refreshable Main Content --------
 @ui.refreshable
 def page_body():
     render_tab(current_tab)
 
-# -------- Full App Prototype (/app) --------
-@ui.page('/app')
-def app_page():
+# -------- Main App Route --------
+@ui.page('/')
+def main_page():
     ui.add_head_html('''
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
         <style>
@@ -119,39 +118,31 @@ def app_page():
                 min-height: unset !important;
                 overflow: visible !important;
             }
-            * {
-                box-sizing: border-box;
-            }
         </style>
     ''')
     header_nav()
     with ui.element('div').classes('px-4 py-6'):
         page_body()
 
-# -------- Journal Redirect Route --------
-from fastapi.responses import RedirectResponse
-
+# -------- Redirect Endpoint Used by Landing Button --------
 @ui.page('/journal')
 def redirect_to_journal_tab():
-    global current_tab
-    current_tab = 'Journal'
-    return RedirectResponse('/app')
+    switch_tab('Journal')
+    main_page()
 
-# -------- Elegant Landing Page (Default Route) --------
-@ui.page('/')
+# -------- Landing Page --------
+@ui.page('/landing')
 def landing_page():
     ui.add_head_html('''
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
         <style>
             html, body {
+                font-family: 'Orbitron', sans-serif;
+                background-color: #0a0a0a;
                 margin: 0;
                 padding: 0;
-                height: 100%;
-                background-color: #0a0a0a;
-                font-family: 'Orbitron', sans-serif;
                 overflow: hidden;
             }
-
             .landing-wrapper {
                 position: relative;
                 height: 100vh;
@@ -161,10 +152,9 @@ def landing_page():
                 align-items: center;
                 z-index: 1;
             }
-
             .glow-card {
                 background: #1f1b2e;
-                padding: 6rem 9rem;
+                padding: 5rem 7rem;
                 border-radius: 2rem;
                 text-align: center;
                 box-shadow: 0 0 45px #9333ea88, 0 0 100px #9333ea55;
@@ -172,7 +162,6 @@ def landing_page():
                 max-width: 1000px;
                 width: 90%;
             }
-
             @keyframes pulse {
                 0%, 100% {
                     box-shadow: 0 0 45px #9333ea88, 0 0 100px #9333ea55;
@@ -181,15 +170,12 @@ def landing_page():
                     box-shadow: 0 0 65px #a855f788, 0 0 120px #a855f766;
                 }
             }
-
             .title {
                 font-size: 3.5rem;
                 color: #e9d5ff;
                 text-shadow: 0 0 12px #c084fc;
-                opacity: 0;
-                animation: fadeInUp 1.2s ease-out forwards;
+                animation: fadeInUp 1s ease-out forwards;
             }
-
             .tagline {
                 color: #e0e0e0;
                 margin-top: 1rem;
@@ -197,7 +183,6 @@ def landing_page():
                 animation: fadeInUp 1.2s ease-out 0.3s forwards;
                 opacity: 0;
             }
-
             .button-purple {
                 margin-top: 2.5rem;
                 padding: 1rem 2.5rem;
@@ -210,13 +195,11 @@ def landing_page():
                 transition: all 0.3s ease;
                 display: inline-block;
             }
-
             .button-purple:hover {
                 background-color: #a855f7;
                 color: #0a0a0a;
                 box-shadow: 0 0 16px #a855f7;
             }
-
             .prototype-link {
                 display: block;
                 margin-top: 1.8rem;
@@ -225,22 +208,13 @@ def landing_page():
                 text-decoration: none;
                 transition: color 0.3s ease;
             }
-
             .prototype-link:hover {
                 color: #93c5fd;
             }
-
             @keyframes fadeInUp {
-                0% {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                100% {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
+                0% { opacity: 0; transform: translateY(20px); }
+                100% { opacity: 1; transform: translateY(0); }
             }
-
             canvas#bgCanvas {
                 position: fixed;
                 top: 0;
@@ -252,21 +226,18 @@ def landing_page():
         </style>
     ''')
 
-    # Background particle animation
+    # Particle background
     ui.add_body_html('''
         <canvas id="bgCanvas"></canvas>
         <script>
             const canvas = document.getElementById('bgCanvas');
             const ctx = canvas.getContext('2d');
-
             function resize() {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             }
-
             window.addEventListener('resize', resize);
             resize();
-
             const stars = Array.from({ length: 150 }, () => ({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
@@ -275,7 +246,6 @@ def landing_page():
                 dy: (Math.random() - 0.5) * 0.4,
                 alpha: 0.6 + Math.random() * 0.4,
             }));
-
             function draw() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 for (const star of stars) {
@@ -285,10 +255,8 @@ def landing_page():
                     ctx.shadowBlur = 10;
                     ctx.shadowColor = '#e9d5ff';
                     ctx.fill();
-
                     star.x += star.dx;
                     star.y += star.dy;
-
                     if (star.x < 0 || star.x > canvas.width) star.dx *= -1;
                     if (star.y < 0 || star.y > canvas.height) star.dy *= -1;
                 }
@@ -303,7 +271,7 @@ def landing_page():
             ui.label('NeuroSpect').classes('title')
             ui.label('Behavioral Feedback for Elite Traders').classes('tagline')
             ui.html('<a href="/journal" class="button-purple">Start Journaling</a>')
-            ui.html('<a class="prototype-link" href="/app">View Full Prototype →</a>')
+            ui.html('<a class="prototype-link" href="/journal">View Full Prototype →</a>')
 
 # -------- Run App --------
 ui.run(title='NeuroSpect', dark=True)

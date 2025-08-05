@@ -30,6 +30,11 @@ class PsychologyCoach(BaseCoach):
             f"Trade Psychology Snapshot:\n{json.dumps(psych_fields, indent=2)}"
         )
 
+    def generate_feedback(self, trade: dict) -> str:
+        """Single-trade feedback used by coach_feedback.py."""
+        input_text = self.format_input(trade)
+        return self.run(input_text)
+
     @classmethod
     def available_versions(cls) -> list[str]:
         return list_prompt_versions(cls.category)
