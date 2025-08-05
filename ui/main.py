@@ -97,8 +97,15 @@ def switch_tab(name):
 def page_body():
     render_tab(current_tab)
 
-# -------- Main App Route --------
+# -------- Main App Route — Redirect to Landing --------
+from fastapi.responses import RedirectResponse
+
 @ui.page('/')
+def redirect_to_landing():
+    return RedirectResponse('/landing')
+
+# -------- App Shell Layout --------
+@ui.page('/app')
 def main_page():
     ui.add_head_html('''
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
@@ -124,7 +131,7 @@ def main_page():
     with ui.element('div').classes('px-4 py-6'):
         page_body()
 
-# -------- Redirect Endpoint Used by Landing Button --------
+# -------- Redirect for Start Journaling Button --------
 @ui.page('/journal')
 def redirect_to_journal_tab():
     switch_tab('Journal')
@@ -271,7 +278,7 @@ def landing_page():
             ui.label('NeuroSpect').classes('title')
             ui.label('Behavioral Feedback for Elite Traders').classes('tagline')
             ui.html('<a href="/journal" class="button-purple">Start Journaling</a>')
-            ui.html('<a class="prototype-link" href="/journal">View Full Prototype →</a>')
+            ui.html('<a class="prototype-link" href="/app">View Full Prototype →</a>')
 
 # -------- Run App --------
 ui.run(title='NeuroSpect', dark=True)
