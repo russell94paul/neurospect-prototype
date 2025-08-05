@@ -49,3 +49,6 @@ weekly_summary_*.pdf
 # --- Other ---
 *.bak
 *.swp
+
+# Allow for trade journal to be uploaded
+!journal.db
