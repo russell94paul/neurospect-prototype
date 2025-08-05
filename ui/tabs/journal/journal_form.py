@@ -1,6 +1,16 @@
 from nicegui import ui
 from data.db import init_db, save_journal_entry
-from ui.partials.journal_sections import trade_metadata, market_context
+from ui.partials.journal_sections import (
+    trade_metadata, 
+    market_context, 
+    execution_details, 
+    orderflow_confirmation, 
+    trade_management,
+    outcome_metrics,
+    emotional_state,
+    reflection_tagging,
+    attachments
+)
 
 def render():
     init_db()
@@ -13,16 +23,31 @@ def render():
             with ui.card().classes('w-full max-w-6xl bg-[#1a1a2e] text-white rounded-xl'):
                 with ui.column().classes('p-6 gap-6 w-full'):
 
-                    ui.label('🧠 Structured Journal Form').classes('text-xl font-bold text-purple-400')
+                    ui.label('🧠 Trade Information').classes('text-xl font-bold text-purple-400')
                     ui.label('Track setups, behavior, outcome, and psychology with precision.').classes('text-sm text-gray-400')
 
                     trade_metadata.render()
                     market_context.render()
+                    execution_details.render()
+                    orderflow_confirmation.render()
+                    trade_management.render()
+                    outcome_metrics.render()
+                    emotional_state.render()
+                    reflection_tagging.render()
+                    attachments.render()
+                    
 
                     def handle_submit():
                         data = {}
                         data.update(trade_metadata.get_data())
                         data.update(market_context.get_data())
+                        data.update(execution_details.get_data())
+                        data.update(orderflow_confirmation.get_data())
+                        data.update(trade_management.get_data())
+                        data.update(outcome_metrics.get_data())
+                        data.update(emotional_state.get_data())
+                        data.update(reflection_tagging.get_data())
+                        data.update(attachments.get_data())
                         save_journal_entry(data)
                         ui.notify('Trade journal entry saved.', type='positive')
                         

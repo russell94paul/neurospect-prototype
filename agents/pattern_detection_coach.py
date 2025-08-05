@@ -4,27 +4,36 @@ import json
 
 class PatternDetectionCoach(BaseCoach):
     name = 'Pattern Detection'
-    category = "pattern_detection"
-    version = 'v1'
-    prompt = load_prompt(category, version)
+    category = 'pattern_detection'
 
-    def format_input(self, trade: dict) -> str:
-        # Include only what’s available so far
-        basic_fields = {
-            "Market": trade.get("market"),
-            "Session": trade.get("session"),
-            "Datetime": trade.get("datetime"),
-            "Bias": trade.get("ht_bias"),
-            "Market Structure": trade.get("market_structure"),
-            "Entry Method": trade.get("entry_method"),
-            "Result": trade.get("result"),
-            "Mental Notes": trade.get("mental_notes"),
-            "Tags": trade.get("tags"),
-        }
+    def __init__(self, version='v2'):
+        prompt = load_prompt(self.category, version)
+        super().__init__()
+        self.version = version
+        self.prompt = prompt
+
+    def format_input(self, trades: list[dict]) -> str:
+        """
+        Format the entire trade history into a JSON structure suitable for deep behavioral analysis.
+        Each trade will include both operational and emotional fields.
+        """
+        relevant_fields = [
+            "datetime", "market", "session", "ht_bias",
+            "execution_context", "setup_label", "result", "r_multiple",
+            "grade", "state_before", "state_after", "confidence_level",
+            "mindset_tags", "mental_notes", "followed_plan",
+            "what_went_well", "what_needs_improvement"
+        ]
+
+        trimmed_trades = [
+            {key: trade.get(key) for key in relevant_fields}
+            for trade in trades
+        ]
 
         return (
-            "NOTE: This version uses a single trade as input. Pattern detection across trades will improve when multiple entries are processed.\n\n"
-            f"Trade Input:\n{json.dumps(basic_fields, indent=2)}"
+            "Analyze the trader’s behavior using the following full journal history. "
+            "Each trade includes execution details and emotional/cognitive context.\n\n"
+            f"Trade Journal History:\n{json.dumps(trimmed_trades, indent=2)}"
         )
 
     @classmethod

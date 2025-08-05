@@ -3,6 +3,7 @@ from pathlib import Path
 
 DB_PATH = Path(__file__).parent / 'journal.db'
 
+
 def init_db():
     with sqlite3.connect(DB_PATH) as conn:
         conn.execute('''
@@ -78,6 +79,13 @@ def init_db():
                 tags TEXT,
                 setup_label TEXT,
 
+                -- Section 9: Attachments
+                entry_screenshot TEXT,
+                footprint_snapshot TEXT,
+                volume_mp_chart TEXT,
+                audio_commentary TEXT,
+                of_dom_log TEXT,
+
                 -- AI Feedback (Core Coaches)
                 psychology_feedback TEXT,
                 psychology_feedback_version TEXT,
@@ -111,12 +119,33 @@ def init_db():
         conn.commit()
 
 
-def save_journal_entry(data: dict):
+def save_journal_entry(data: dict) -> int:
+    """Insert a new entry and return its ID."""
     with sqlite3.connect(DB_PATH) as conn:
         keys = ', '.join(data.keys())
         placeholders = ', '.join('?' for _ in data)
         values = tuple(data.values())
-        conn.execute(f'INSERT INTO journal_entries ({keys}) VALUES ({placeholders})', values)
+        cur = conn.execute(f'INSERT INTO journal_entries ({keys}) VALUES ({placeholders})', values)
+        conn.commit()
+        return cur.lastrowid
+
+
+def load_journal_entry(entry_id: int) -> dict | None:
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.row_factory = sqlite3.Row
+        cur = conn.execute('SELECT * FROM journal_entries WHERE id = ?', (entry_id,))
+        row = cur.fetchone()
+        return dict(row) if row else None
+
+
+def update_journal_entry(entry_id: int, data: dict) -> None:
+    """Update selected fields of an existing entry."""
+    if not data:
+        return
+    with sqlite3.connect(DB_PATH) as conn:
+        assignments = ', '.join(f'{k} = ?' for k in data.keys())
+        values = tuple(data.values()) + (entry_id,)
+        conn.execute(f'UPDATE journal_entries SET {assignments} WHERE id = ?', values)
         conn.commit()
 
 
