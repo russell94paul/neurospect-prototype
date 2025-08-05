@@ -1,5 +1,5 @@
 import streamlit as st
-from tabs.trade_doctor import error_tree, xray_mode, recovery_plan, classification_tags
+from ui.tabs.trade_doctor import error_tree, xray_mode, recovery_plan, classification_tags
 
 def render():
     st.title("🩺 Trade Doctor")

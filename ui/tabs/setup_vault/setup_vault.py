@@ -1,5 +1,5 @@
 import streamlit as st
-from tabs.setup_vault import neurodna_summary, performance_overview, setup_templates, strategy_tracker
+from ui.tabs.setup_vault import neurodna_summary, performance_overview, setup_templates, strategy_tracker
 
 def render():
     st.title("🔐 Setup Vault")

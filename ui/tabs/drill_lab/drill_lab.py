@@ -1,5 +1,5 @@
 import streamlit as st
-from tabs.drill_lab import drills
+from ui.tabs.drill_lab import drills
 
 def render():
     st.title("🎯 Drill Lab")

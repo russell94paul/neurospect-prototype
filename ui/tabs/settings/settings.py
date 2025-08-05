@@ -1,5 +1,5 @@
 import streamlit as st
-from tabs.settings import global_account_switcher, account_manager, storage_settings
+from ui.tabs.settings import global_account_switcher, account_manager, storage_settings
 
 def render():
     st.title("⚙️ Settings")
