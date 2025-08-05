@@ -3,5 +3,5 @@ services:
     name: neurospect
     env: python
     buildCommand: ""
-    startCommand: python -m ui.main.py
+    startCommand: python -m ui.main
     pythonVersion: 3.11.8
