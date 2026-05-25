@@ -1,192 +1,302 @@
 /* NeuroSpect v2 — NeuroFusion (SIHRE) Deep Dive Page */
 
-/* ═══ REASONING SCENARIOS DATA ═══ */
+/* ═══ NON-TRADING REASONING SCENARIOS ═══ */
 var REASONING_SCENARIOS = [
-  { id: 'bias', title: 'Pre-Market Bias', icon: '\u{1F9ED}',
-    desc: 'It\'s 8:45 AM ET. NQ futures are 40 points above yesterday\'s close. Asian session swept a key low overnight.',
-    question: 'What\'s your directional bias for the NY AM session?',
-    options: ['Bullish — price is above previous close', 'Bearish — liquidity sweep suggests reversal', 'Neutral — wait for London close confirmation', 'Bullish but cautious — need FVG confirmation'],
+  { id: 'soccer', title: 'Half-Time Substitution', icon: '⚽',
+    desc: 'Your team is drawing 1-1 at half-time. Your star striker has scored in 3 of the last 4 second halves but has been quiet today. Your backup striker scored twice in warm-up and is begging to come on. The opponent just switched to a low block.',
+    question: 'Do you substitute the striker?',
+    options: ['Keep starter — his track record speaks for itself', 'Sub in backup — he\'s hot right now', 'Wait until the 60th minute to assess the second half', 'Change formation instead — add a midfielder to break the block'],
     sihre_answer: 2,
+    bridge: 'In trading, this is the equivalent of switching strategies mid-session because your "backup" setup looks good in a screener — while ignoring that the market regime just changed.',
     reasoning: [
-      { type: 'Statistical', color: '#3b82f6', says: 'Leans bullish. 67% of sessions with 40+ point overnight gaps continue in direction for the first 30 minutes.' },
-      { type: 'Structural', color: '#8b5cf6', says: 'Flags caution. The Asia sweep of a key low is a classic reversal setup. Historical reversal rate after this pattern: 58%.' },
-      { type: 'Regime-Aware', color: '#10b981', says: 'Detects current regime is "expansion after consolidation" — a regime where overnight gaps are unreliable directional signals.' },
-      { type: 'Uncertainty', color: '#f59e0b', says: 'Confidence interval is wide. Two signals disagree. Recommends waiting for London close to narrow the distribution before committing bias.' },
-      { type: 'Orchestrator', color: '#fbbf24', says: 'Synthesis: Neutral. Statistical lean is bullish, but structural pattern contradicts, and regime context weakens the gap signal. Wait for confirming price action. No edge in premature commitment.' },
+      { type: 'Statistical', color: '#3b82f6', says: 'Starter\'s second-half scoring rate (3 of 4) is strong historical data. Warm-up performance has near-zero correlation with match performance across 200+ games studied.' },
+      { type: 'Structural', color: '#8b5cf6', says: 'The opponent switched to a low block — this is a regime change. The game is now fundamentally different from the first half. A target striker may need different skills vs a low block than vs open play.' },
+      { type: 'Behavioral', color: '#10b981', says: '"He\'s hot in warm-up" is recency bias applied to the wrong context. The pressure to act comes from the frustration of drawing, not from evidence that a change would help.' },
+      { type: 'Risk-Adjusted', color: '#f59e0b', says: 'A substitution is irreversible. If the backup doesn\'t perform, you\'ve burned a sub and lost your best second-half scorer. The cost of waiting 15 minutes is low; the cost of a wrong sub is high.' },
+      { type: 'Orchestrator', color: '#fbbf24', says: 'Wait. Multiple signals conflict and the regime just changed. Assess how the low block affects play for 15 minutes. If the starter can\'t create chances against the new setup, THEN sub — for tactical reasons, not emotional ones.' },
     ]},
-  { id: 'entry', title: 'Entry or Pass?', icon: '\u{1F3AF}',
-    desc: 'A fair value gap forms on the 15-minute chart after a displacement candle. Price is retracing into it. Your checklist says "go."',
-    question: 'Do you take this entry?',
-    options: ['Yes — setup is textbook, enter now', 'Yes — but reduce size due to session timing', 'No — wait for a lower timeframe confirmation', 'No — something feels off, pass entirely'],
+  { id: 'restaurant', title: 'Friday Rush Menu', icon: '\u{1F468}‍\u{1F373}',
+    desc: 'It\'s Thursday evening. Your new seafood risotto has been a hit — sold out 3 nights in a row. But your fish supplier warned that Friday\'s delivery might be 2 hours late, and your sous chef who perfected the dish called in sick for tomorrow.',
+    question: 'Do you put the risotto on Friday\'s specials?',
+    options: ['Yes — it\'s been selling out, ride the momentum', 'No — too many risk factors, play it safe', 'Plan it but prep a backup dish ready to swap in', 'Modify it — simpler version the other chef can handle'],
     sihre_answer: 2,
+    bridge: 'In trading, this is like sizing up on a setup that\'s been winning — while ignoring that your data feed might lag and your usual execution conditions have changed.',
     reasoning: [
-      { type: 'Pattern Match', color: '#3b82f6', says: 'Setup matches historical criteria. Win rate for this pattern in this session: 54%. Marginal but positive.' },
-      { type: 'Contextual', color: '#8b5cf6', says: 'Flags that the displacement candle occurred during low-volume transition (11:30 AM). Similar setups during lunch hours have 38% win rate — below baseline.' },
-      { type: 'Adversarial', color: '#ef4444', says: 'Challenges the entry. Finds 3 counter-arguments: liquidity above is thin, no higher-timeframe alignment, and today\'s session profile doesn\'t match A+ setup criteria.' },
-      { type: 'Uncertainty', color: '#f59e0b', says: 'Conviction score: 0.41 (below 0.55 threshold). If entering, recommends 40% of standard position size.' },
-      { type: 'Orchestrator', color: '#fbbf24', says: 'Synthesis: Wait for LTF confirmation. The setup is structurally valid but context degrades it. If a 1-minute or 5-minute bullish reaction appears at the FVG, re-evaluate with tighter stop.' },
+      { type: 'Statistical', color: '#3b82f6', says: '3 consecutive sellouts is compelling. But sample size is tiny, and conditions were different each night (your best chef, reliable supply, no time pressure). Past performance under different conditions isn\'t a reliable predictor.' },
+      { type: 'Contextual', color: '#8b5cf6', says: 'Two independent risk factors (late delivery + different chef) compound. The probability of BOTH going smoothly is much lower than either individually. Friday is also your highest-volume night.' },
+      { type: 'Adversarial', color: '#ef4444', says: 'What\'s the worst case? Late fish + unfamiliar chef = bad risotto served to Friday\'s biggest crowd. A sellout dish done badly is worse than no dish at all — it damages your reputation permanently.' },
+      { type: 'Risk-Adjusted', color: '#f59e0b', says: 'The asymmetry is key. Upside: one more night of sales. Downside: angry customers, wasted ingredients, stressed kitchen during peak rush. The risk far outweighs the reward.' },
+      { type: 'Orchestrator', color: '#fbbf24', says: 'Prep the risotto IF supplies arrive on time AND the replacement chef tests a practice batch beforehand. Have the backup ready. Conditional execution with a defined abort criteria — don\'t commit until the risk factors are actually resolved.' },
     ]},
-  { id: 'sizing', title: 'Position Sizing', icon: '\u{1F4CA}',
-    desc: 'You have an A+ setup: HTF bias aligned, LTF entry confirmed, FVG respected. But you\'re already down 1.2% on the day from two earlier losses.',
-    question: 'How do you size this trade?',
-    options: ['Full size — the setup quality demands it', 'Reduced (50%) — account for daily loss', 'Increased — make back losses with this A+ setup', 'Standard size — prior losses are irrelevant to this trade'],
-    sihre_answer: 1,
-    reasoning: [
-      { type: 'Setup Quality', color: '#3b82f6', says: 'Confirms A+ classification. Historical expectancy for this setup at this conviction level: +2.4R.' },
-      { type: 'Risk Governor', color: '#ef4444', says: 'Daily drawdown is 1.2%. Risk budget remaining: 0.8% before daily limit. Full-size trade risks hitting limit on any adverse move.' },
-      { type: 'Behavioral', color: '#8b5cf6', says: 'Detects "recovery bias" pattern. After 2+ losses, traders historically over-size by 30% and widen stops. Flags increased psychological risk.' },
-      { type: 'Uncertainty', color: '#f59e0b', says: 'Setup conviction is high (0.78) but risk-adjusted sizing must account for remaining daily budget. Optimal: 55% of standard size.' },
-      { type: 'Orchestrator', color: '#fbbf24', says: 'Synthesis: Reduce to ~50%. The setup is genuinely strong, but risk governance takes priority. Preserving remaining daily budget means you can still trade the PM session if another setup appears. A great setup at reduced size still has positive expectancy.' },
-    ]},
-  { id: 'news', title: 'News Event Response', icon: '\u{1F4F0}',
-    desc: 'You\'re in a long position, up 1.5R. CPI data drops in 3 minutes. Consensus expects 3.2%, whisper number is 3.4%.',
-    question: 'What do you do with your open position?',
-    options: ['Hold — the trend is your friend', 'Close entirely — never hold through news', 'Partial close (50%) and trail the rest', 'Move stop to breakeven and hold'],
-    sihre_answer: 2,
-    reasoning: [
-      { type: 'Statistical', color: '#3b82f6', says: 'CPI releases cause average 45-point NQ moves. Current profit (1.5R) could be fully erased in the initial spike. Historical win rate holding longs through above-consensus CPI: 31%.' },
-      { type: 'Scenario Generator', color: '#10b981', says: 'Simulates 3 scenarios: consensus (3.2%) = mild continuation, hot (3.4%) = sharp selloff erasing position, cool (3.0%) = rally adds 2R. Weighted expected value of holding: -0.3R.' },
-      { type: 'Risk Governor', color: '#ef4444', says: 'Open exposure through a binary event violates risk framework. The stop-loss may not execute at the intended price due to gap risk.' },
-      { type: 'Memory', color: '#8b5cf6', says: 'Recalls 14 prior CPI events in similar conditions. Partial close + trail preserved 68% of profits on average vs. 41% for full hold.' },
-      { type: 'Orchestrator', color: '#fbbf24', says: 'Synthesis: Partial close 50%, trail the remainder with a breakeven stop. Locks in 0.75R guaranteed profit while maintaining upside exposure if the print is favorable. Risk-adjusted optimal path given gap risk.' },
-    ]},
-  { id: 'streak', title: 'Loss Streak Management', icon: '\u{1F6E1}️',
-    desc: 'You\'ve had 4 consecutive losses over 2 days. Each followed your plan. Total drawdown: 3.2%. A valid setup appears on your screen right now.',
-    question: 'What\'s your next move?',
-    options: ['Take the trade — plan is working, variance happens', 'Skip today entirely — reset mentally', 'Take it at 25% size to stay engaged', 'Review the 4 losses first before deciding'],
+  { id: 'medical', title: 'The Ambiguous Diagnosis', icon: '\u{1FA7A}',
+    desc: 'A patient has fatigue, mild fever, and joint pain. Blood work shows slightly elevated inflammation markers. They just returned from a tropical vacation. Your quick-reference suggests either a common viral infection (self-limiting) or an early autoimmune flare (needs immediate treatment).',
+    question: 'What\'s your next step?',
+    options: ['Diagnose viral — it\'s 20x more common, prescribe rest', 'Order the autoimmune panel immediately', 'Treat for both simultaneously to cover all bases', 'Get detailed travel history and run a targeted tropical disease panel'],
     sihre_answer: 3,
+    bridge: 'In trading, this is like entering a trade based on the most common pattern — while ignoring a contextual detail (like a news event or session timing) that completely changes the probability distribution.',
     reasoning: [
-      { type: 'Statistical', color: '#3b82f6', says: '4 consecutive losses is within normal variance for a 55% win rate system (occurs ~4% of the time). The strategy hasn\'t broken — this is expected.' },
-      { type: 'Behavioral', color: '#8b5cf6', says: 'After 4+ losses, traders in this profile show 2.3x higher rates of plan deviation on the 5th trade. Emotional decision-making risk is elevated regardless of intellectual understanding.' },
-      { type: 'Forensic', color: '#10b981', says: 'Analyzes the 4 losses for hidden pattern. Finds: 3 of 4 occurred during the same session (NY AM) on the same instrument. This may not be variance — it could be a regime-specific degradation worth investigating.' },
-      { type: 'Uncertainty', color: '#f59e0b', says: 'Current system confidence has decayed from 0.72 to 0.54 due to recent results. Below the standard execution threshold but above the full-stop threshold.' },
-      { type: 'Orchestrator', color: '#fbbf24', says: 'Synthesis: Review the 4 losses first. The forensic layer surfaced a potential pattern (3/4 in same session + instrument) that could indicate regime-specific failure, not pure variance. If the pattern is confirmed, adjust the routing. If it\'s noise, resume with standard sizing tomorrow.' },
+      { type: 'Statistical', color: '#3b82f6', says: 'Base rates favor viral (95% of presentations with these symptoms). But base rates shift dramatically when you add context — the tropical vacation opens an entirely different diagnostic category.' },
+      { type: 'Contextual', color: '#8b5cf6', says: '"Recently returned from tropical vacation" is a regime-changing detail. It introduces a third hypothesis (tropical disease) that the quick-reference didn\'t consider. Without knowing which countries and exposures, the differential is incomplete.' },
+      { type: 'Adversarial', color: '#ef4444', says: 'Challenge: treating for viral when it\'s actually tropical could be dangerous. Treating for autoimmune (immunosuppressants) when it\'s actually an infection could be catastrophic. The cost of wrong treatment is asymmetric.' },
+      { type: 'Uncertainty', color: '#f59e0b', says: 'With three possible categories, confidence in any single diagnosis is too low to act on. The cost of asking one more question (travel details) is near zero; the cost of wrong treatment is enormous.' },
+      { type: 'Orchestrator', color: '#fbbf24', says: 'The travel history is the highest-information question available — it collapses multiple hypotheses at zero cost and zero risk. Get more data before committing. The best move right now is to gather information, not to act.' },
     ]},
-  { id: 'regime_shift', title: 'Regime Transition', icon: '\u{1F30A}',
-    desc: 'Your trend-following setups have been printing money for 3 weeks. This week, two setups that "should have worked" both stopped out at breakeven.',
-    question: 'How do you interpret this?',
-    options: ['Noise — keep trading the trend system', 'Market is ranging — switch to mean reversion', 'Reduce size until clarity returns', 'Stop trading and wait for a clear signal'],
+  { id: 'hiring', title: 'The Star Candidate', icon: '\u{1F4BC}',
+    desc: 'You\'re hiring a senior engineer. Candidate A crushed the technical interview (top 5%), has 8 years of experience, and comes from a top company. But two team members who had coffee chats reported "something felt off" — they can\'t pinpoint what. Candidate B scored well (top 20%) and everyone loved working with them during the trial task.',
+    question: 'Who do you hire?',
+    options: ['Candidate A — technical skill is what matters', 'Candidate B — team fit wins in the long run', 'Bring A back for another round to investigate', 'Keep searching for someone who has both'],
     sihre_answer: 2,
+    bridge: 'In trading, this is like taking a setup with a perfect technical score but ignoring the "gut feeling" that something about the context is wrong — a weak signal that experienced traders learn to respect.',
     reasoning: [
-      { type: 'Regime Detection', color: '#3b82f6', says: 'Volatility compression detected. Average true range has declined 34% over the past 5 sessions. Trend-continuation setups have a 29% lower win rate in this volatility regime.' },
-      { type: 'Structural', color: '#8b5cf6', says: 'Price is coiling between two key levels with decreasing range. Classic transition from expansion to consolidation. Duration of similar consolidations historically: 3-8 sessions.' },
-      { type: 'Memory', color: '#10b981', says: 'Last 6 similar transitions in this instrument showed: trend strategies degraded for an average of 5.2 sessions before either resuming or reversing.' },
-      { type: 'Adaptive', color: '#f59e0b', says: 'Recommends reducing exposure while the regime is ambiguous. The transition is real but the destination is unknown — could resume trending or enter prolonged range.' },
-      { type: 'Orchestrator', color: '#fbbf24', says: 'Synthesis: Reduce size. The regime transition is confirmed by multiple signals, but the destination regime is uncertain. Cutting size preserves capital during the ambiguous period while maintaining market exposure for when clarity emerges. Do NOT switch to mean reversion prematurely — wait for the range to establish boundaries first.' },
+      { type: 'Statistical', color: '#3b82f6', says: 'Technical score is measurable and A is clearly stronger. But research shows team cohesion explains 3x more variance in project outcomes than individual technical ability. The data doesn\'t support "best coder = best hire."' },
+      { type: 'Behavioral', color: '#8b5cf6', says: '"Something felt off" is a pattern-match signal from experienced people who have seen enough colleagues to develop intuition. Dismissing it because it\'s not quantified is itself a bias — the bias toward what\'s measurable.' },
+      { type: 'Adversarial', color: '#ef4444', says: 'Challenge the A case: prestige company + high score could mean excellent at interviewing but difficult to work with. Challenge the B case: "everyone loved them" could mean agreeable but won\'t push back when needed. Both deserve scrutiny.' },
+      { type: 'Uncertainty', color: '#f59e0b', says: 'The "something off" signal is low-resolution but potentially high-information. One more data point could confirm or dismiss it. Cost of another interview: a few hours. Cost of a bad hire: months of damage.' },
+      { type: 'Orchestrator', color: '#fbbf24', says: 'Investigate before committing. When you have a weak but potentially critical signal, the rational move is to increase resolution — not to ignore it or over-weight it. One more structured conversation with A, specifically probing collaboration style, costs almost nothing compared to the cost of getting this wrong.' },
     ]},
-  { id: 'fvg_quality', title: 'FVG Quality Assessment', icon: '\u{1F50E}',
-    desc: 'Two fair value gaps formed today. FVG-A is on the 1-hour chart in a trending market. FVG-B is on the 5-minute chart after a news spike.',
-    question: 'Which FVG do you prioritize?',
-    options: ['FVG-A — higher timeframe is always better', 'FVG-B — it\'s fresher and closer to current price', 'Both equally valid — trade whichever fills first', 'Neither — need more context before choosing'],
-    sihre_answer: 0,
+  { id: 'weather', title: 'The Outdoor Wedding', icon: '\u{26C5}',
+    desc: 'You\'re planning a friend\'s outdoor wedding for Saturday. Three weather models disagree: Model A says sunny (65% confidence), Model B says afternoon thunderstorms (70% confidence), Model C says overcast but dry (55% confidence). The indoor backup costs $3,000 extra and must be decided by Thursday.',
+    question: 'What do you recommend?',
+    options: ['Go outdoor — Model A is the most optimistic', 'Book the indoor backup — can\'t risk a wedding', 'Check which model has been most accurate for this region recently', 'Go outdoor but arrange a 30-minute emergency tent plan'],
+    sihre_answer: 2,
+    bridge: 'In trading, this is like averaging conflicting indicators instead of asking which one has the best track record for THIS specific market condition — and whether the cost of being wrong is symmetric.',
     reasoning: [
-      { type: 'Structural', color: '#3b82f6', says: 'FVG-A: formed during organic price delivery in a trending session. Historical fill rate: 72%, continuation after fill: 64%. FVG-B: formed during news volatility, a mechanically different event. Fill rate: 81% but continuation: 39%.' },
-      { type: 'Contextual', color: '#8b5cf6', says: 'News-spike FVGs are "displacement artifacts" — they look like valid imbalances but are caused by liquidity vacuums, not institutional order flow. Different cause, different reliability.' },
-      { type: 'Causal', color: '#10b981', says: 'Proposes that FVG-A has a causal mechanism (institutional accumulation in trend) while FVG-B\'s mechanism (news liquidity vacuum) is transient. Causal stability score: A=0.71, B=0.28.' },
-      { type: 'Uncertainty', color: '#f59e0b', says: 'Conviction on FVG-A: 0.67 (tradeable). Conviction on FVG-B: 0.34 (below threshold). The difference is not subjective — it\'s quantifiable.' },
-      { type: 'Orchestrator', color: '#fbbf24', says: 'Synthesis: Prioritize FVG-A. Higher timeframe + organic formation + trending regime + causal stability all converge. FVG-B is a trap for traders who don\'t distinguish between structural and artifactual imbalances.' },
+      { type: 'Statistical', color: '#3b82f6', says: 'Averaging the three models gives roughly 60% chance of usable weather. But model averaging only works if the models are independent — if they share the same satellite data, their errors are correlated and averaging gives false confidence.' },
+      { type: 'Contextual', color: '#8b5cf6', says: 'Which model has the best track record for THIS region, THIS season, THIS type of weather pattern? A model that\'s 70% confident but historically poor at predicting afternoon convective storms in your area should be weighted very differently.' },
+      { type: 'Risk-Adjusted', color: '#f59e0b', says: 'The asymmetry matters enormously. Upside of outdoor: save $3K. Downside of outdoor gone wrong: ruined wedding, permanent memory, damaged friendship. This is not a symmetric bet — not even close.' },
+      { type: 'Meta-Reasoning', color: '#10b981', says: 'The question isn\'t "what will the weather be?" It\'s "which forecaster do I trust MOST given these specific conditions?" This is the orchestration problem — choosing which expert to listen to, not averaging all of them.' },
+      { type: 'Orchestrator', color: '#fbbf24', says: 'Check regional model accuracy first. If Model B (thunderstorms) has been the most accurate for afternoon convective activity in this area, its 70% confidence should dominate despite A\'s optimism. And given the cost asymmetry, you need HIGH confidence to go outdoor — not just marginal probability.' },
     ]},
-  { id: 'multi_tf', title: 'Timeframe Conflict', icon: '\u{23F1}️',
-    desc: 'Daily chart is bearish (lower highs). 4-hour is neutral (range-bound). 15-minute just printed a bullish market structure shift.',
-    question: 'How do you resolve this conflict?',
-    options: ['Follow the daily — higher timeframe wins', 'Trade the 15-min MSS — momentum is shifting', 'Wait for 4-hour to confirm either direction', 'Short — use the 15-min bounce as entry for the daily bear trend'],
+  { id: 'cooking', title: 'The Unfamiliar Ingredient', icon: '\u{1F372}',
+    desc: 'You\'re making your signature chili for a dinner party. Your usual dried chilies are out of stock. The store has three alternatives you\'ve never cooked with: Ancho (mild, sweet, smoky), Guajillo (medium, fruity, tangy), Habanero (extremely hot, fruity). Guests have varying spice tolerances.',
+    question: 'Which chili do you choose?',
+    options: ['Habanero — go bold, it\'s your signature dish', 'Ancho — play it safe with the mildest option', 'Guajillo — it\'s the middle ground', 'Buy all three and test small batches first'],
     sihre_answer: 3,
+    bridge: 'In trading, this is the "paper trade before going live" principle. When you\'ve never tested a strategy in these conditions and the stakes are high, the rational move is to test small before committing.',
     reasoning: [
-      { type: 'Multi-Scale', color: '#3b82f6', says: 'Quantifies the conflict: Daily bearish conviction 0.72, 4H neutral 0.50, 15M bullish 0.61. Weighted by timeframe reliability, net directional score: -0.38 (bearish lean).' },
-      { type: 'Structural', color: '#8b5cf6', says: 'Recognizes the pattern: bearish daily + bullish 15M = classic "return to FVG" before continuation. The 15M bullish shift is likely the retracement INTO the bearish daily structure, not a reversal of it.' },
-      { type: 'Historical', color: '#10b981', says: 'In this specific conflict pattern (bearish D1 + bullish 15M MSS), the D1 direction continued 71% of the time. The 15M MSS served as the entry trigger FOR the higher timeframe direction.' },
-      { type: 'Uncertainty', color: '#f59e0b', says: 'Short entry conviction: 0.64 (above threshold). Key risk: the 4H range could provide support. Recommends tight stop above the 15M MSS high.' },
-      { type: 'Orchestrator', color: '#fbbf24', says: 'Synthesis: Use the 15M bullish move as a short entry. The lower timeframe "bullish" shift is actually providing a premium entry into the higher timeframe bearish structure. This is how multi-timeframe alignment works — the LTF isn\'t contradicting the HTF, it\'s giving you a better entry for it.' },
-    ]},
-  { id: 'correlation', title: 'Cross-Market Signal', icon: '\u{1F310}',
-    desc: 'ES and NQ have been moving in lockstep all week. Today, ES breaks a key high while NQ fails to make a new high at the same time.',
-    question: 'What does this divergence mean?',
-    options: ['Bullish — ES is leading, NQ will follow', 'Bearish — NQ weakness signals a reversal for both', 'Meaningless — minor timing difference', 'Need more data — watch for 30 more minutes'],
-    sihre_answer: 1,
-    reasoning: [
-      { type: 'Correlation', color: '#3b82f6', says: 'ES/NQ correlation has been 0.94 this week. Today\'s divergence at a key level is a 2-sigma event. Historical outcome when this divergence occurs at highs: reversal 68% of the time within 2 hours.' },
-      { type: 'Structural', color: '#8b5cf6', says: 'This is a classic SMT (Smart Money Technique) divergence. ES making a high while NQ fails suggests the move is retail-driven, not institutional. Institutional flow would move both indices.' },
-      { type: 'Causal', color: '#10b981', says: 'Proposes mechanism: one index sweeping liquidity while the other fails = engineered stop hunt. The "real" move is the failure, not the breakout. Causal confidence: 0.62.' },
-      { type: 'Memory', color: '#f59e0b', says: 'Recalls 23 similar ES/NQ divergences at key levels in the past 6 months. 16 resulted in reversal (70%), average reversal move: 35 NQ points within 90 minutes.' },
-      { type: 'Orchestrator', color: '#fbbf24', says: 'Synthesis: Bearish signal. Multiple independent reasoning paths converge: statistical correlation break, structural SMT pattern, causal mechanism, and historical precedent all point to reversal. This is a high-conviction signal — the kind that emerges when heterogeneous signals agree.' },
-    ]},
-  { id: 'exit', title: 'Optimal Exit Timing', icon: '\u{1F3C1}',
-    desc: 'You\'re in a short trade, currently at +2.8R. Price is approaching a key support level 15 points below. Your original target was +3R.',
-    question: 'Do you hold for the full target?',
-    options: ['Hold — target is only 15 points away', 'Close now — 2.8R is excellent, don\'t give it back', 'Trail stop tightly and let it play out', 'Close 75% and let 25% run for the target'],
-    sihre_answer: 3,
-    reasoning: [
-      { type: 'Statistical', color: '#3b82f6', says: 'Trades that reach 2.8R achieve 3.0R only 52% of the time in this instrument. Expected value of holding for 0.2R more: +0.04R (marginal). Risk of support bounce taking it back to 2.0R: 23%.' },
-      { type: 'Structural', color: '#8b5cf6', says: 'The support level ahead is a daily level with historical respect. Price often reacts violently at these levels. The last 15 points may be the hardest.' },
-      { type: 'Behavioral', color: '#10b981', says: 'Detects "anchoring bias" — fixation on the 3R target is a cognitive trap. The market doesn\'t know your target. Optimal exit is probabilistic, not target-based.' },
-      { type: 'Risk-Adjusted', color: '#f59e0b', says: 'Partial close maximizes risk-adjusted return. Close 75% to lock in 2.1R guaranteed. Trail 25% with a stop at 2.0R. Worst case: 2.6R total. Best case: 2.85R total. Both outcomes are excellent.' },
-      { type: 'Orchestrator', color: '#fbbf24', says: 'Synthesis: Close 75%, trail 25%. The math favors partial exit. Holding everything for 0.2R more has negative expected value when accounting for the support level reaction risk. Partial close converts a good trade into a guaranteed great trade while preserving upside optionality.' },
+      { type: 'Statistical', color: '#3b82f6', says: 'Without personal experience cooking with ANY of these, your confidence in any choice should be low. Reading a label is not the same as tasting the result. You have zero data points.' },
+      { type: 'Contextual', color: '#8b5cf6', says: '"Guests with varying spice tolerances" is a hard constraint that Habanero violates outright. "Signature dish" means quality expectations are high — a mediocre adaptation is worse than openly changing the recipe.' },
+      { type: 'Adversarial', color: '#ef4444', says: '"Play it safe" (Ancho) might make it bland. "Middle ground" (Guajillo) is guessing based on a description, not experience. Going bold with an unknown ingredient at a dinner party is gambling with your reputation.' },
+      { type: 'Uncertainty', color: '#f59e0b', says: 'When uncertainty is high and the cost of testing is low relative to the cost of failure, always test first. 30 minutes and a few dollars for test batches vs. a ruined dinner party. The math is obvious.' },
+      { type: 'Orchestrator', color: '#fbbf24', says: 'Buy all three, make small test batches, taste, then decide. Reduce uncertainty before committing. This principle — test small, then scale — applies whether you\'re cooking, hiring, investing, or making any irreversible high-stakes decision.' },
     ]},
 ];
 
-/* ═══ SIMULATOR SCENARIOS ═══ */
+/* ═══ NON-TRADING SIMULATOR (Soccer Match Management) ═══ */
 var SIM_STEPS = [
-  { title: 'Pre-Market Analysis',
-    situation: 'ES futures gapped up 20 points overnight. Asia session was bullish. European session is currently pulling back into yesterday\'s value area.',
-    question: 'What\'s your pre-market bias?',
+  { title: 'Pre-Match Lineup',
+    situation: 'Cup semi-final. Your fastest winger has been in incredible form (4 goals in 3 games) but picked up a minor knock in training yesterday — he says he\'s "90% fit." Your backup is solid but slower. The opponent plays with aggressive full-backs who leave space in behind.',
+    question: 'Do you start the injured winger?',
     options: [
-      { label: 'Strong bullish', score: 2 },
-      { label: 'Cautious bullish', score: 4 },
-      { label: 'Neutral — wait and see', score: 3 },
-      { label: 'Bearish — fade the gap', score: 1 },
+      { label: 'Start him — form is temporary, ride it', score: 2 },
+      { label: 'Start the backup, save the winger for second half', score: 4 },
+      { label: 'Start him but plan to sub at 60 minutes', score: 3 },
+      { label: 'Leave him out entirely — don\'t risk aggravating the injury', score: 1 },
     ],
     sihre_choice: 1,
-    sihre_reasoning: 'Multiple signals converge on cautious bullish: gap + Asia momentum support direction, but European pullback + key level proximity warrant reduced conviction until NY open price action confirms.',
+    sihre_reasoning: 'A "90% fit" player in a high-intensity cup match is a compounding risk. If his knock worsens at minute 20, you\'ve lost a substitution AND your best player for the final. Starting the backup preserves the winger as a second-half weapon when opponents tire — and their aggressive full-backs will leave even more space in the second half.',
   },
-  { title: 'Setup Identification',
-    situation: 'At 9:45 AM, a bullish FVG forms on the 5-minute chart after a sweep of the overnight low. The displacement is 12 points. Volume is above average.',
-    question: 'How do you classify this setup?',
+  { title: 'First-Half Tactical Adjustment',
+    situation: 'It\'s the 25th minute, you\'re 0-0. Your midfield is being overrun — the opponent has 62% possession and has had 3 shots on target. Your centre-back is winning every aerial duel but your full-backs are being beaten one-on-one repeatedly.',
+    question: 'How do you adjust?',
     options: [
-      { label: 'A+ setup — take full size', score: 3 },
-      { label: 'B+ setup — take 70% size', score: 4 },
-      { label: 'C setup — too early to tell', score: 2 },
-      { label: 'Skip — don\'t trust early session', score: 1 },
-    ],
-    sihre_choice: 1,
-    sihre_reasoning: 'Setup quality is high (sweep + displacement + FVG + volume confluence), but it\'s only 15 minutes into the session. Historical data shows the first 20 minutes have 18% more false signals. B+ classification with 70% sizing optimizes the risk-reward while respecting the session timing context.',
-  },
-  { title: 'Risk Management',
-    situation: 'You enter the trade. Stop is below the swept low (8 points risk). Price moves in your favor by 6 points, then stalls for 4 minutes at a minor resistance level.',
-    question: 'How do you manage the position?',
-    options: [
-      { label: 'Move stop to breakeven', score: 2 },
-      { label: 'Keep original stop, trust the setup', score: 3 },
-      { label: 'Partial close 30%, trail the rest', score: 4 },
-      { label: 'Close everything — stall means reversal', score: 1 },
+      { label: 'Switch to 3 centre-backs to shore up defence', score: 3 },
+      { label: 'Push higher — attack is the best defence', score: 1 },
+      { label: 'Tell full-backs to sit deeper and concede width', score: 4 },
+      { label: 'No change — it\'s still 0-0, don\'t overreact', score: 2 },
     ],
     sihre_choice: 2,
-    sihre_reasoning: 'Minor resistance stalls are normal price delivery. Moving to breakeven prematurely would result in a stop-out 41% of the time in this pattern. The original thesis (sweep + FVG + displacement) hasn\'t been invalidated. Partial close is suboptimal this early — the full move hasn\'t developed. Hold with original stop.',
+    sihre_reasoning: 'The data is clear: full-backs are the weak point, not the centre. A formation change at 25 minutes is a high-disruption move for a problem that has a simpler solution — instruct full-backs to hold position and let the midfield cover the width. This is a minimal intervention that addresses the specific failure without destabilizing the whole system.',
   },
-  { title: 'Mid-Trade Decision',
-    situation: 'Price breaks through the minor resistance and reaches +12 points (+1.5R). A bearish engulfing candle prints on the 5-minute chart. Higher timeframe trend is still bullish.',
-    question: 'React to the bearish candle?',
+  { title: 'Half-Time Strategy',
+    situation: 'Half-time: still 0-0, but the opponent\'s key playmaker picked up a yellow card and is playing cautiously. Your team created 2 good chances in the last 10 minutes as the opponent tired. Your winger (on the bench) is now fully warmed up.',
+    question: 'What\'s your half-time message?',
     options: [
-      { label: 'Close immediately — bearish signal', score: 1 },
-      { label: 'Move stop to +0.8R, hold for target', score: 3 },
-      { label: 'Close 50%, trail rest at +0.8R', score: 4 },
-      { label: 'Ignore it — higher TF is bullish', score: 2 },
-    ],
-    sihre_choice: 2,
-    sihre_reasoning: 'A single bearish engulfing on the LTF against a bullish HTF is noise 62% of the time. However, at +1.5R, risk management becomes asymmetric: protecting the open profit is now more valuable than marginal upside. Partial close + trail balances both considerations optimally.',
-  },
-  { title: 'Final Outcome',
-    situation: 'After your management decision, price consolidates for 8 minutes then runs another 10 points. The daily target zone (your original TP) is hit at +2.8R.',
-    question: 'Post-trade: what\'s your biggest takeaway?',
-    options: [
-      { label: 'I should have held full size the whole time', score: 2 },
-      { label: 'My process was correct regardless of outcome', score: 4 },
-      { label: 'I need to trust bearish signals more', score: 1 },
-      { label: 'The partial close was right — even if I left money', score: 3 },
+      { label: 'Bring on the winger now — momentum is shifting', score: 2 },
+      { label: 'Keep the same team — they\'re growing into the game', score: 4 },
+      { label: 'Bring on the winger AND make a formation change', score: 1 },
+      { label: 'Wait until 60 minutes, then bring the winger on fresh', score: 3 },
     ],
     sihre_choice: 1,
-    sihre_reasoning: 'Outcome bias is the most dangerous trap in trading. This trade worked — but that doesn\'t validate "hold everything." Across 1,000 similar situations, partial close + trail produces higher risk-adjusted returns than full hold, even though full hold occasionally captures more. Process over outcome. Always.',
+    sihre_reasoning: 'The team is improving with the current setup — momentum is building, the opponent\'s playmaker is constrained by his yellow card. Changing what\'s working introduces unnecessary risk. The winger\'s impact will be maximized at 60-65 minutes when opponents are fatigued and the space behind their full-backs opens up further.',
+  },
+  { title: 'Critical Moment',
+    situation: 'Minute 55: you score! 1-0. The opponent immediately pushes numbers forward. Your backup winger (who\'s been solid) looks tired. The fresh winger is ready. But you also notice the opponent\'s centre-backs are now pushing high, leaving massive space on the counter.',
+    question: 'What do you do?',
+    options: [
+      { label: 'Sub in the winger now — exploit the space', score: 4 },
+      { label: 'Wait 5 more minutes to see if the pressure fades', score: 2 },
+      { label: 'Sub in a defensive midfielder instead — protect the lead', score: 1 },
+      { label: 'Sub in the winger for a midfielder — go for the kill', score: 3 },
+    ],
+    sihre_choice: 0,
+    sihre_reasoning: 'Three signals converge: (1) your backup is tiring, (2) the winger is fresh and fast, (3) the opponent\'s high line creates exactly the space your winger exploits best. This is the moment you saved him for. A like-for-like substitution that addresses fatigue while exploiting a tactical opportunity — maximum impact, minimum disruption.',
+  },
+  { title: 'Post-Match Analysis',
+    situation: 'Final score: 2-0. Your substitute winger scored the second goal on the counter in the 78th minute, exactly as planned. The team held firm defensively throughout.',
+    question: 'What\'s the main takeaway?',
+    options: [
+      { label: 'I should always save my best players for the second half', score: 1 },
+      { label: 'The process worked — decisions were based on context, not emotion', score: 4 },
+      { label: 'We got lucky — the opponent should have scored in the first half', score: 2 },
+      { label: 'The tactical adjustment at 25 minutes was the key moment', score: 3 },
+    ],
+    sihre_choice: 1,
+    sihre_reasoning: 'The outcome validated the process, but the process is what matters — not this specific outcome. Each decision was made by weighing multiple factors (fitness data, tactical context, opponent behaviour, timing, risk asymmetry) rather than following a single rule. Next match, the right answer might be completely different — but the reasoning framework stays the same.',
   },
 ];
+
+/* ═══ BONUS: PASSWORD-LOCKED NQ TRADING SCENARIO ═══ */
+var NQ_SCENARIO = {
+  id: 'nq_live', title: 'NQ Live Session — NY AM Open', icon: '\u{1F4C8}',
+  desc: 'It\'s 9:32 AM ET. NQ swept the overnight low at 19,240 during the first 2 minutes of the NY session. A 3-candle displacement just printed on the 5-minute chart, leaving a fair value gap between 19,260 and 19,275. Price is retracing toward the gap. The daily bias is bullish (higher timeframe order block respected). Volume is 40% above average for this time.',
+  question: 'What\'s your play?',
+  options: [
+    'Enter long at FVG fill (19,265) — sweep + displacement + HTF alignment',
+    'Wait for a 1-minute bullish reaction inside the FVG before entering',
+    'Skip — it\'s the first 5 minutes, too much noise',
+    'Enter long but at half size — the setup is valid but timing is aggressive',
+  ],
+  sihre_answer: 1,
+  reasoning: [
+    { type: 'Statistical', color: '#3b82f6', says: 'Overnight low sweeps followed by displacement within the first 5 minutes have a 61% continuation rate in NQ when daily bias is aligned. However, entries in the first 3 minutes have 22% more adverse excursion than entries after a 1-minute confirmation.' },
+    { type: 'Structural', color: '#8b5cf6', says: 'The setup is textbook: liquidity sweep → displacement → FVG → retrace. All boxes checked. But the FVG formed during the most volatile period of the session — its reliability as a support zone is lower than an FVG formed during established price delivery.' },
+    { type: 'Regime-Aware', color: '#10b981', says: 'Current regime: expansion out of overnight consolidation. This is a high-conviction regime for continuation trades. However, the first 5 minutes often produce false signals that reverse by 9:45 AM.' },
+    { type: 'Risk-Adjusted', color: '#f59e0b', says: 'Conviction score is 0.58 — above the minimum threshold but below the "full size" threshold of 0.70. A 1-minute bullish reaction inside the FVG would raise conviction to ~0.72 by confirming buy-side interest at this level.' },
+    { type: 'Orchestrator', color: '#fbbf24', says: 'Wait for the 1-minute confirmation. The setup is structurally valid and the daily bias supports it, but the timing (first 5 minutes) adds noise. A brief patience window (watching for a bullish reaction candle inside the FVG) costs almost nothing in terms of missed entry but significantly increases the probability of the trade working. The difference between a good trade and a great trade is often 60 seconds of patience.' },
+  ],
+};
+
+/* ═══ PASSWORD GATE ═══ */
+var GATE_PASSWORD = 'neurospect2026';
+
+function PasswordGate({ children }) {
+  var stored = React.useState(function() {
+    try { return sessionStorage.getItem('nf_auth') === 'true'; } catch(e) { return false; }
+  });
+  var authed = stored[0], setAuthed = stored[1];
+  var inputState = React.useState('');
+  var pw = inputState[0], setPw = inputState[1];
+  var errorState = React.useState(false);
+  var error = errorState[0], setError = errorState[1];
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (pw.toLowerCase().trim() === GATE_PASSWORD) {
+      setAuthed(true);
+      try { sessionStorage.setItem('nf_auth', 'true'); } catch(e) {}
+    } else {
+      setError(true);
+      setTimeout(function() { setError(false); }, 2000);
+    }
+  }
+
+  if (authed) return children;
+
+  return (
+    <div className="page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '70vh' }}>
+      <div className="card card-sihre sihre-glow" style={{ maxWidth: 420, width: '100%', padding: '2rem', textAlign: 'center' }}>
+        <div className="sihre-ring" style={{ margin: '0 auto 16px' }}>
+          <span style={{ fontFamily: 'var(--font-h)', fontWeight: 800, fontSize: '1.1rem', color: 'var(--gold-400)' }}>N</span>
+        </div>
+        <h2 style={{ fontSize: '1.1rem', marginBottom: 6 }}><span className="grad-text-gold">NeuroFusion</span></h2>
+        <p style={{ fontSize: '0.82rem', color: 'var(--text-m)', marginBottom: 20, lineHeight: 1.6 }}>
+          This section contains proprietary research.<br />Enter the access code to continue.
+        </p>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 8 }}>
+          <input
+            type="password"
+            value={pw}
+            onChange={function(e) { setPw(e.target.value); }}
+            placeholder="Access code"
+            style={{
+              flex: 1, padding: '10px 14px', borderRadius: 10,
+              border: '1px solid ' + (error ? 'rgba(239,68,68,0.5)' : 'var(--border)'),
+              background: 'var(--surface)', color: 'var(--text-h)',
+              fontFamily: 'var(--font-m)', fontSize: '0.85rem',
+              outline: 'none', transition: 'border-color 0.2s',
+            }}
+          />
+          <button type="submit" className="btn btn-gold btn-sm">Enter</button>
+        </form>
+        {error && <p style={{ fontSize: '0.72rem', color: '#ef4444', marginTop: 8 }}>Incorrect code. Try again.</p>}
+        <p style={{ fontSize: '0.65rem', color: 'var(--text-d)', marginTop: 16 }}>
+          Request access at <a href="#pricing" style={{ color: 'var(--gold-400)' }}>the waitlist</a> or visit <a href="https://sihre.ai" target="_blank" rel="noopener" style={{ color: 'var(--gold-400)' }}>sihre.ai</a>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ═══ NQ SCENARIO CARD ═══ */
+function NqScenarioCard() {
+  var ansState = React.useState(null);
+  var answer = ansState[0], setAnswer = ansState[1];
+  var revState = React.useState(false);
+  var isRevealed = revState[0], setRevealed = revState[1];
+  var s = NQ_SCENARIO;
+  var isCorrect = answer === s.sihre_answer;
+
+  return (
+    <div className="card card-sihre" style={{ borderLeftWidth: 3, borderLeftColor: 'var(--gold-400)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+        <span style={{ fontSize: '1rem' }}>{s.icon}</span>
+        <strong style={{ fontSize: '0.9rem', color: 'var(--gold-300)' }}>{s.title}</strong>
+        {isRevealed && (
+          <span className={'badge ' + (isCorrect ? 'badge-green' : 'badge-blue')} style={{ fontSize: '0.5rem', padding: '1px 6px' }}>
+            {isCorrect ? 'Aligned' : 'Diverged'}
+          </span>
+        )}
+      </div>
+      <p style={{ fontSize: '0.82rem', color: 'var(--text-b)', lineHeight: 1.6, marginBottom: 14, padding: '10px 14px', borderRadius: 8, background: 'rgba(59,130,246,0.04)', borderLeft: '2px solid rgba(59,130,246,0.2)' }}>
+        {s.desc}
+      </p>
+      <p style={{ fontSize: '0.85rem', color: 'var(--text-h)', marginBottom: 10, fontWeight: 600 }}>{s.question}</p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 14 }}>
+        {s.options.map(function(opt, oi) {
+          var isSelected = answer === oi;
+          var isSihre = isRevealed && oi === s.sihre_answer;
+          var borderCol = isSihre ? 'rgba(251,191,36,0.5)' : isSelected ? 'var(--border-hover)' : 'var(--border)';
+          var bgCol = isSihre ? 'rgba(251,191,36,0.06)' : isSelected ? 'rgba(59,130,246,0.08)' : 'transparent';
+          return (
+            <div key={oi}
+              onClick={function() { if (!isRevealed) setAnswer(oi); }}
+              style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 14px', borderRadius: 10, border: '1px solid ' + borderCol, background: bgCol, cursor: isRevealed ? 'default' : 'pointer', transition: 'all 0.2s' }}>
+              <div style={{ width: 20, height: 20, borderRadius: '50%', border: '2px solid ' + (isSelected ? 'var(--blue-400)' : isSihre ? 'var(--gold-400)' : 'var(--border)'), display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                {isSelected && <div style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--blue-400)' }}></div>}
+                {isSihre && !isSelected && <div style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--gold-400)' }}></div>}
+              </div>
+              <span style={{ fontSize: '0.82rem', color: isSihre ? 'var(--gold-300)' : isSelected ? 'var(--text-h)' : 'var(--text-b)' }}>{opt}</span>
+              {isSihre && <span className="badge badge-gold" style={{ fontSize: '0.5rem', padding: '1px 5px', marginLeft: 'auto' }}>SIHRE</span>}
+            </div>
+          );
+        })}
+      </div>
+      {answer != null && !isRevealed && (
+        <button className="btn btn-gold btn-sm" onClick={function() { setRevealed(true); }}>Reveal Multi-Signal Reasoning</button>
+      )}
+      {isRevealed && (
+        <div style={{ marginTop: 4 }}>
+          <span className="label" style={{ color: 'var(--gold-400)', marginBottom: 10, display: 'block' }}>How SIHRE approaches this NQ setup</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {s.reasoning.map(function(r, ri) {
+              var isOrch = r.type === 'Orchestrator';
+              return (
+                <div key={ri} style={{ padding: '10px 14px', borderRadius: 10, background: isOrch ? 'rgba(251,191,36,0.06)' : 'rgba(59,130,246,0.03)', borderLeft: '3px solid ' + r.color }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: r.color, boxShadow: '0 0 6px ' + r.color + '50' }}></span>
+                    <strong style={{ fontSize: '0.72rem', color: r.color, fontFamily: 'var(--font-m)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>{r.type}</strong>
+                  </div>
+                  <p style={{ fontSize: '0.78rem', color: isOrch ? 'var(--gold-300)' : 'var(--text-b)', lineHeight: 1.55, fontWeight: isOrch ? 500 : 400 }}>{r.says}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 /* ═══ NEUROFUSION PAGE ═══ */
 function NeuroFusionPage() {
@@ -240,10 +350,11 @@ function NeuroFusionPage() {
   });
 
   return (
+    <PasswordGate>
     <div className="page">
       {/* Hero */}
       <Rv>
-        <div className="hero-grad" style={{ padding: 'clamp(2rem,4vw,3rem)', marginBottom: '1.5rem', borderImage: 'linear-gradient(135deg, rgba(251,191,36,0.3), rgba(251,191,36,0.05)) 1', borderImageSlice: 1 }}>
+        <div className="hero-grad" style={{ padding: 'clamp(2rem,4vw,3rem)', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
             <span className="badge badge-gold"><span className="badge-dot"></span>Patent Pending</span>
             <span className="badge badge-gold" style={{ background: 'rgba(251,191,36,0.15)' }}>v0.1</span>
@@ -303,7 +414,7 @@ function NeuroFusionPage() {
             <div>
               <strong style={{ fontSize: '0.82rem', color: 'var(--text-h)', display: 'block', marginBottom: 4 }}>Proprietary Technology</strong>
               <p style={{ fontSize: '0.78rem', color: 'var(--text-m)', lineHeight: 1.6 }}>
-                NeuroFusion and the SIHRE architecture are proprietary technologies with a patent pending. The examples on this page illustrate <em>how the system reasons</em> at a conceptual level — they do not reveal the underlying signal architecture, model weights, or orchestration algorithms. For detailed technical information, visit <a href="https://sihre.ai" target="_blank" rel="noopener" style={{ color: 'var(--gold-400)' }}>sihre.ai</a> or request the whitepaper above.
+                NeuroFusion and the SIHRE architecture are proprietary technologies with a patent pending. The examples below use <em>everyday scenarios</em> to illustrate how multi-signal reasoning works at a conceptual level — they do not reveal the underlying architecture. For detailed technical information, visit <a href="https://sihre.ai" target="_blank" rel="noopener" style={{ color: 'var(--gold-400)' }}>sihre.ai</a> or request the whitepaper above.
               </p>
             </div>
           </div>
@@ -313,9 +424,9 @@ function NeuroFusionPage() {
       {/* Interactive reasoning examples */}
       <Rv delay={100}>
         <div style={{ marginBottom: '1.5rem' }}>
-          <h2 style={{ fontSize: '1.2rem', marginBottom: 6 }}>How Does SIHRE Reason?</h2>
+          <h2 style={{ fontSize: '1.2rem', marginBottom: 6 }}>How Does Multi-Signal Reasoning Work?</h2>
           <p style={{ fontSize: '0.82rem', color: 'var(--text-m)', marginBottom: 16, maxWidth: 560, lineHeight: 1.6 }}>
-            Choose your answer for each scenario, then reveal how heterogeneous reasoning approaches the same problem. See where your intuition aligns — and where it diverges.
+            Start with decisions you already understand. These everyday scenarios use the exact same reasoning principles that SIHRE applies — pick your answer, then see how multiple types of intelligence approach the same problem.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {REASONING_SCENARIOS.map(function(s, idx) {
@@ -335,7 +446,7 @@ function NeuroFusionPage() {
                         <span style={{ fontSize: '1rem' }}>{s.icon}</span>
                         <div>
                           <strong style={{ fontSize: '0.85rem', color: isOpen ? 'var(--gold-300)' : 'var(--text-h)' }}>{s.title}</strong>
-                          {isRevealed != null && userAnswer != null && (
+                          {isRevealed != null && userAnswer != null && isRevealed && (
                             <span className={'badge ' + (isCorrect ? 'badge-green' : 'badge-blue')} style={{ marginLeft: 8, fontSize: '0.5rem', padding: '1px 6px' }}>
                               {isCorrect ? 'Aligned' : 'Diverged'}
                             </span>
@@ -375,14 +486,14 @@ function NeuroFusionPage() {
 
                         {userAnswer != null && !isRevealed && (
                           <button className="btn btn-gold btn-sm" onClick={function() { revealReasoning(s.id); }}>
-                            Reveal SIHRE's Reasoning
+                            Reveal Multi-Signal Reasoning
                           </button>
                         )}
 
                         {isRevealed && (
                           <div style={{ marginTop: 4 }}>
-                            <span className="label" style={{ color: 'var(--gold-400)', marginBottom: 10, display: 'block' }}>How heterogeneous reasoning approaches this</span>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            <span className="label" style={{ color: 'var(--gold-400)', marginBottom: 10, display: 'block' }}>How multiple types of intelligence approach this</span>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 12 }}>
                               {s.reasoning.map(function(r, ri) {
                                 var isOrch = r.type === 'Orchestrator';
                                 return (
@@ -396,6 +507,14 @@ function NeuroFusionPage() {
                                 );
                               })}
                             </div>
+                            {/* Bridge callout */}
+                            <div style={{ padding: '10px 14px', borderRadius: 8, background: 'rgba(251,191,36,0.04)', borderLeft: '3px solid rgba(251,191,36,0.25)' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                                <span style={{ fontSize: '0.75rem' }}>&#128200;</span>
+                                <span style={{ fontSize: '0.65rem', color: 'var(--gold-400)', fontFamily: 'var(--font-m)', letterSpacing: '0.04em', textTransform: 'uppercase', fontWeight: 600 }}>Trading parallel</span>
+                              </div>
+                              <p style={{ fontSize: '0.75rem', color: 'var(--text-m)', lineHeight: 1.55, fontStyle: 'italic' }}>{s.bridge}</p>
+                            </div>
                           </div>
                         )}
                       </div>
@@ -408,17 +527,27 @@ function NeuroFusionPage() {
         </div>
       </Rv>
 
+      {/* NQ Trading Scenario — bonus */}
+      <Rv delay={110}>
+        <div style={{ marginBottom: '1.5rem' }}>
+          <h2 style={{ fontSize: '1.2rem', marginBottom: 6 }}>Now Apply It to a Real Market</h2>
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-m)', marginBottom: 16, maxWidth: 560, lineHeight: 1.6 }}>
+            Same reasoning framework, applied to a live NQ futures scenario. See how multi-signal intelligence handles a real trading decision.
+          </p>
+          <NqScenarioCard />
+        </div>
+      </Rv>
+
       {/* Simulator */}
       <Rv delay={120}>
         <div style={{ marginBottom: '1.5rem' }}>
-          <h2 style={{ fontSize: '1.2rem', marginBottom: 6 }}>Trade Reasoning Simulator</h2>
+          <h2 style={{ fontSize: '1.2rem', marginBottom: 6 }}>Multi-Signal Reasoning Simulator</h2>
           <p style={{ fontSize: '0.82rem', color: 'var(--text-m)', marginBottom: 16, maxWidth: 560, lineHeight: 1.6 }}>
-            Walk through a complete trade from pre-market to post-trade review. Make your decisions at each stage, then compare your reasoning process against SIHRE's approach.
+            Manage a full soccer match from pre-game to post-match. Make decisions at each stage, then compare your reasoning against a multi-signal approach. Same principles, different domain.
           </p>
 
           {!simDone ? (
             <div className="card card-sihre" style={{ padding: '1.5rem' }}>
-              {/* Progress bar */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
                 {SIM_STEPS.map(function(_, i) {
                   var done = i < simStep;
@@ -456,9 +585,8 @@ function NeuroFusionPage() {
             </div>
           ) : (
             <div className="card card-sihre" style={{ padding: '1.5rem' }}>
-              <h3 style={{ fontSize: '1rem', marginBottom: 16, color: 'var(--gold-300)' }}>Simulation Complete</h3>
+              <h3 style={{ fontSize: '1rem', marginBottom: 16, color: 'var(--gold-300)' }}>Match Complete</h3>
 
-              {/* Score comparison */}
               <div className="bento bento-2" style={{ marginBottom: 20 }}>
                 <div className="card" style={{ textAlign: 'center', borderColor: 'var(--border-hover)' }}>
                   <span className="label" style={{ marginBottom: 6, display: 'block' }}>Your Score</span>
@@ -466,26 +594,29 @@ function NeuroFusionPage() {
                   <span style={{ fontSize: '0.7rem', color: 'var(--text-d)' }}>out of {SIM_STEPS.length * 4}</span>
                 </div>
                 <div className="card" style={{ textAlign: 'center', borderColor: 'var(--border-gold)' }}>
-                  <span className="label" style={{ color: 'var(--gold-400)', marginBottom: 6, display: 'block' }}>SIHRE Score</span>
+                  <span className="label" style={{ color: 'var(--gold-400)', marginBottom: 6, display: 'block' }}>Multi-Signal Score</span>
                   <div className="mono" style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--gold-400)' }}>{simSihreScore}</div>
                   <span style={{ fontSize: '0.7rem', color: 'var(--text-d)' }}>out of {SIM_STEPS.length * 4}</span>
                 </div>
               </div>
 
               <div style={{ marginBottom: 16, padding: '12px 16px', borderRadius: 10, background: 'rgba(251,191,36,0.04)', borderLeft: '3px solid var(--gold-400)' }}>
-                <p style={{ fontSize: '0.82rem', color: 'var(--text-b)', lineHeight: 1.6 }}>
+                <p style={{ fontSize: '0.82rem', color: 'var(--text-b)', lineHeight: 1.6, marginBottom: 8 }}>
                   {simScore >= simSihreScore
-                    ? 'Impressive — your reasoning aligned with or exceeded SIHRE\'s approach. You\'re already thinking in multi-signal terms. Imagine that consistency across every trade, every session, every market condition.'
+                    ? 'Impressive — your match management aligned with multi-signal reasoning. You naturally weigh context, timing, and risk asymmetry.'
                     : simScore >= simSihreScore - 3
-                    ? 'Close match. Your intuition is strong, but SIHRE found edge in the nuances — the places where context, uncertainty quantification, and cross-signal validation change the optimal decision.'
-                    : 'This is exactly why heterogeneous reasoning exists. Individual traders rely on 1-2 reasoning modes. SIHRE fuses many different types of intelligence simultaneously — each catching what the others miss.'}
+                    ? 'Close match. Your instincts are strong. The gaps are in the places where context, timing, or risk asymmetry shift the optimal decision.'
+                    : 'This is exactly why multi-signal reasoning exists — it catches the contextual nuances that single-mode thinking misses.'}
+                </p>
+                <p style={{ fontSize: '0.78rem', color: 'var(--text-m)', lineHeight: 1.55, fontStyle: 'italic' }}>
+                  Now imagine this same reasoning applied to every trading decision — entry, exit, sizing, risk management — with dozens of specialized signals instead of five.
                 </p>
               </div>
 
               {!simReveal ? (
                 <div style={{ display: 'flex', gap: 10 }}>
-                  <button className="btn btn-gold btn-sm" onClick={function() { setSimReveal(true); }}>Show Step-by-Step Comparison</button>
-                  <button className="btn btn-ghost btn-sm" onClick={resetSim}>Try Again</button>
+                  <button className="btn btn-gold btn-sm" onClick={function() { setSimReveal(true); }}>Show Stage-by-Stage Comparison</button>
+                  <button className="btn btn-ghost btn-sm" onClick={resetSim}>Play Again</button>
                 </div>
               ) : (
                 <div>
@@ -506,7 +637,7 @@ function NeuroFusionPage() {
                               <p style={{ fontSize: '0.78rem', color: 'var(--text-b)', marginTop: 2 }}>{userOpt.label}</p>
                             </div>
                             <div style={{ padding: '8px 10px', borderRadius: 8, background: 'rgba(251,191,36,0.04)', border: '1px solid rgba(251,191,36,0.1)' }}>
-                              <span style={{ fontSize: '0.62rem', color: 'var(--gold-400)', fontFamily: 'var(--font-m)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>SIHRE chose</span>
+                              <span style={{ fontSize: '0.62rem', color: 'var(--gold-400)', fontFamily: 'var(--font-m)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Multi-Signal</span>
                               <p style={{ fontSize: '0.78rem', color: 'var(--gold-300)', marginTop: 2 }}>{sihreOpt.label}</p>
                             </div>
                           </div>
@@ -515,7 +646,7 @@ function NeuroFusionPage() {
                       );
                     })}
                   </div>
-                  <button className="btn btn-ghost btn-sm" onClick={resetSim}>Run Simulation Again</button>
+                  <button className="btn btn-ghost btn-sm" onClick={resetSim}>Play Again</button>
                 </div>
               )}
             </div>
@@ -528,7 +659,7 @@ function NeuroFusionPage() {
         <div className="card card-gold" style={{ textAlign: 'center', padding: '2rem' }}>
           <h2 style={{ fontSize: '1.1rem', marginBottom: 8 }}>Experience NeuroFusion</h2>
           <p style={{ color: 'var(--text-m)', marginBottom: 16, fontSize: '0.88rem' }}>
-            Join the waitlist for early access to heterogeneous reasoning.
+            Join the waitlist for early access to heterogeneous reasoning — applied to markets.
           </p>
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
             <a href="#pricing" className="btn btn-gold">Join Waitlist</a>
@@ -537,6 +668,7 @@ function NeuroFusionPage() {
         </div>
       </Rv>
     </div>
+    </PasswordGate>
   );
 }
 

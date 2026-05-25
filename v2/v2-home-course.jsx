@@ -188,13 +188,13 @@ function HomePage() {
                   <span className="badge badge-gold" style={{ fontSize: '0.55rem', padding: '2px 6px' }}>Creator</span>
                 </div>
                 <p style={{ fontSize: '0.82rem', color: 'var(--text-m)', lineHeight: 1.65, marginBottom: 8 }}>
-                  Data engineer and ML specialist with production experience at <strong style={{ color: 'var(--text-b)' }}>Lululemon</strong> (demand forecasting, ML systems at scale) and <strong style={{ color: 'var(--text-b)' }}>Analytic Labs</strong> (AI-native data platforms, enterprise warehouse architecture). Funded futures trader. Built production systems spanning Snowflake warehouse design, Prefect orchestration pipelines, multi-agent AI frameworks, and quantitative trading infrastructure.
+                  Data/AI engineer turned funded futures trader. Built NeuroSpect because I kept losing the same trades and got annoyed enough to build something about it. Every feature exists because I needed it first.
                 </p>
-                <p style={{ fontSize: '0.82rem', color: 'var(--text-m)', lineHeight: 1.65, marginBottom: 8 }}>
-                  Architect of the <strong style={{ color: 'var(--gold-300)' }}>SIHRE framework</strong> — a domain-general heterogeneous reasoning architecture designed for adaptive intelligence under non-stationarity. Applied first to financial markets through NeuroSpect, with documented applications across robotics, cyber defense, healthcare, and scientific discovery.
-                </p>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 8 }}>
+                  <a href="#story" className="btn btn-ghost btn-sm" style={{ fontSize: '0.72rem', padding: '4px 12px' }}>Read My Story</a>
+                </div>
                 <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  {['ML Engineering', 'Quantitative Finance', 'AI Architecture', 'Data Engineering', 'Funded Trader'].map(function(tag) {
+                  {['Data/AI Engineering', 'Funded Trader', 'SIHRE Creator'].map(function(tag) {
                     return <span key={tag} style={{ fontSize: '0.62rem', padding: '2px 8px', borderRadius: 100, background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.12)', color: 'var(--gold-400)', fontFamily: 'var(--font-m)', letterSpacing: '0.02em' }}>{tag}</span>;
                   })}
                 </div>

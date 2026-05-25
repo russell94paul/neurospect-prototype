@@ -70,6 +70,7 @@ window.SvgIcon = SvgIcon;
 function Sidebar({ route }) {
   var nav = [
     { id: 'home', label: 'Home', icon: 'home' },
+    { id: 'story', label: 'My Story', icon: 'users' },
     { id: 'course', label: 'Course', icon: 'book' },
     { id: 'backtesting', label: 'Backtesting', icon: 'beaker' },
     { id: 'performance', label: 'Performance', icon: 'chart' },
