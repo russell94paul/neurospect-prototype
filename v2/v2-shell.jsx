@@ -74,6 +74,7 @@ function Sidebar({ route }) {
     { id: 'backtesting', label: 'Backtesting', icon: 'beaker' },
     { id: 'performance', label: 'Performance', icon: 'chart' },
     { section: 'Platform' },
+    { id: 'neurofusion', label: 'NeuroFusion', icon: 'bolt', gold: true },
     { id: 'architecture', label: 'Architecture', icon: 'cube' },
     { id: 'features', label: 'Upcoming', icon: 'rocket' },
     { section: 'Business' },
@@ -90,8 +91,9 @@ function Sidebar({ route }) {
       <nav className="side-nav">
         {nav.map(function(item, i) {
           if (item.section) return <div key={i} className="side-section">{item.section}</div>;
+          var goldStyle = item.gold ? { color: route === item.id ? 'var(--gold-300)' : 'var(--gold-400)', textShadow: route === item.id ? '0 0 8px rgba(251,191,36,0.3)' : 'none' } : {};
           return (
-            <a key={item.id} href={'#' + item.id} className={'side-link ' + (route === item.id ? 'active' : '')}>
+            <a key={item.id} href={'#' + item.id} className={'side-link ' + (route === item.id ? 'active' : '')} style={goldStyle}>
               <SvgIcon name={item.icon} />
               {item.label}
             </a>

@@ -265,7 +265,7 @@ function HomePage() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-            <a href="#pricing" className="btn btn-gold btn-sm">Request Whitepaper</a>
+            <a href="#neurofusion" className="btn btn-gold btn-sm">Learn More &amp; Try the Simulator</a>
             <span style={{ fontSize: '0.72rem', color: 'var(--text-d)', fontFamily: 'var(--font-m)' }}>
               A proprietary multi-signal reasoning architecture. No existing system has assembled this.
             </span>
