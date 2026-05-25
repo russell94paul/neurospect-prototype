@@ -67,8 +67,129 @@ function HomePage() {
         </div>
       </Rv>
 
+      {/* NeuroFusion (SIHRE) */}
+      <Rv delay={140}>
+        <div className="card card-sihre sihre-glow" style={{ marginBottom: '1.5rem', padding: 'clamp(1.5rem,3vw,2.5rem)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
+            <div className="sihre-ring">
+              <span style={{ fontFamily: 'var(--font-h)', fontWeight: 800, fontSize: '1.1rem', color: 'var(--gold-400)' }}>N</span>
+            </div>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
+                <h2 style={{ fontSize: '1.3rem', margin: 0 }}>
+                  <span className="grad-text-gold">NeuroFusion</span>
+                </h2>
+                <span className="badge badge-gold"><span className="badge-dot"></span>Patent Pending</span>
+              </div>
+              <p style={{ fontFamily: 'var(--font-m)', fontSize: '0.7rem', letterSpacing: '0.06em', color: 'var(--gold-400)' }}>
+                SELF-IMPROVING HETEROGENEOUS REASONING ENSEMBLE (SIHRE)
+              </p>
+            </div>
+          </div>
+
+          <p style={{ fontSize: '0.92rem', color: 'var(--text-b)', lineHeight: 1.7, marginBottom: 8, maxWidth: 640 }}>
+            A first-of-its-kind AI architecture that fuses <strong style={{ color: 'var(--gold-300)' }}>13 fundamentally different types of intelligence</strong> into a single reasoning system — not a bigger model, but a new <em>kind</em> of model.
+          </p>
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-m)', lineHeight: 1.65, marginBottom: 20, maxWidth: 640 }}>
+            Research and development by <strong style={{ color: 'var(--text-h)' }}>Paul Russell</strong> (chartShooter). Whitepaper available. Patent pending.
+          </p>
+
+          {/* Sports analogy */}
+          <div className="card" style={{ background: 'rgba(251,191,36,0.03)', borderColor: 'rgba(251,191,36,0.12)', marginBottom: 20, padding: '1.2rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+              <span style={{ fontSize: '1rem' }}>&#9917;</span>
+              <span className="label" style={{ color: 'var(--gold-400)' }}>Think of it like this</span>
+            </div>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-b)', lineHeight: 1.7, marginBottom: 10 }}>
+              Traditional AI trading systems are like hiring <strong style={{ color: 'var(--text-h)' }}>one coach</strong> who does everything — strength, nutrition, psychology, game film, injury rehab. They're decent at all of it, great at none.
+            </p>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-b)', lineHeight: 1.7, marginBottom: 10 }}>
+              SIHRE is like building a <strong style={{ color: 'var(--gold-300)' }}>world-class performance staff</strong> — a biomechanics specialist, a sports psychologist, a nutritionist, a data analyst, a game film coordinator, a rehab therapist, a strength coach, and a head coach who knows <em>exactly</em> which specialist to call on for every situation.
+            </p>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-b)', lineHeight: 1.7 }}>
+              The head coach (Signal 13 — Meta-Orchestrator) doesn't just average everyone's advice. It learns: <em>"When the athlete is in recovery, trust the physio over the strength coach. When it's game day, trust the psychologist and game film analyst."</em> And the whole staff <strong style={{ color: 'var(--gold-300)' }}>improves together</strong> — every game, every session, every season compounds.
+            </p>
+          </div>
+
+          {/* Why it's a game changer */}
+          <h3 style={{ fontSize: '0.95rem', marginBottom: 12, color: 'var(--gold-300)' }}>Why This Changes Everything</h3>
+          <div className="bento bento-2" style={{ marginBottom: 20 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {[
+                { t: 'Reasoning, not stacking', d: 'Traditional ensembles vote on similar models. SIHRE fuses different kinds of thinking — causal, statistical, semantic, adversarial, generative — at the reasoning level.' },
+                { t: 'Self-improving under governance', d: 'Three feedback loops (fast/medium/slow) compound intelligence over time. Every trade, every outcome, every failure makes the system smarter — with safety rails.' },
+              ].map(function(item) {
+                return (
+                  <div key={item.t} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                    <span style={{ color: 'var(--gold-400)', fontSize: '0.85rem', marginTop: 2, flexShrink: 0 }}>&#9670;</span>
+                    <div>
+                      <strong style={{ fontSize: '0.82rem', color: 'var(--text-h)', display: 'block', marginBottom: 2 }}>{item.t}</strong>
+                      <span style={{ fontSize: '0.78rem', color: 'var(--text-m)', lineHeight: 1.55 }}>{item.d}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {[
+                { t: 'Knows when to abstain', d: 'Unlike black-box models that always produce a score, SIHRE has causal and conformal governors that prevent execution when edge is fragile or uncertain.' },
+                { t: 'Compounding memory moat', d: 'NeuroGraph stores every signal, outcome, causal discovery, and failure with full provenance. The system gets exponentially harder to replicate over time.' },
+              ].map(function(item) {
+                return (
+                  <div key={item.t} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                    <span style={{ color: 'var(--gold-400)', fontSize: '0.85rem', marginTop: 2, flexShrink: 0 }}>&#9670;</span>
+                    <div>
+                      <strong style={{ fontSize: '0.82rem', color: 'var(--text-h)', display: 'block', marginBottom: 2 }}>{item.t}</strong>
+                      <span style={{ fontSize: '0.78rem', color: 'var(--text-m)', lineHeight: 1.55 }}>{item.d}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* The 13 Signals */}
+          <h3 style={{ fontSize: '0.95rem', marginBottom: 12, color: 'var(--gold-300)' }}>The 13 Signals</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 6, marginBottom: 16 }}>
+            {[
+              { n: 1,  name: 'VectorDB Retrieval', q: 'What does the knowledge base say?' },
+              { n: 2,  name: 'Domain Language Model', q: 'What does ICT methodology conclude?' },
+              { n: 3,  name: 'Quant Model', q: 'What do the numbers predict?' },
+              { n: 4,  name: 'Knowledge Graph', q: 'What patterns has this entity shown?' },
+              { n: 5,  name: 'Causal Engine', q: 'What causes this outcome?' },
+              { n: 6,  name: 'Conformal Predictor', q: 'How reliable is this prediction?' },
+              { n: 7,  name: 'Adversarial Debate', q: 'What\'s the counter-argument?' },
+              { n: 8,  name: 'Scenario Generator', q: 'What could break this?' },
+              { n: 9,  name: 'Active Learning', q: 'Where does research effort help most?' },
+              { n: 10, name: 'Federated Network', q: 'What does collective intelligence show?' },
+              { n: 11, name: 'Regime Discovery', q: 'What market state are we in?' },
+              { n: 12, name: 'Program Synthesis', q: 'What patterns haven\'t humans found?' },
+              { n: 13, name: 'Meta-Orchestrator', q: 'Which expert to trust right now?' },
+            ].map(function(s) {
+              var isOrch = s.n === 13;
+              return (
+                <div key={s.n} className="sihre-signal" style={isOrch ? { borderColor: 'rgba(251,191,36,0.25)', background: 'rgba(251,191,36,0.06)' } : {}}>
+                  <div className="sihre-num" style={isOrch ? { background: 'rgba(251,191,36,0.2)', borderColor: 'rgba(251,191,36,0.4)' } : {}}>{s.n}</div>
+                  <div>
+                    <strong style={{ fontSize: '0.78rem', color: isOrch ? 'var(--gold-300)' : 'var(--text-h)', display: 'block', lineHeight: 1.3 }}>{s.name}</strong>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-m)', fontStyle: 'italic' }}>{s.q}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <a href="#pricing" className="btn btn-gold btn-sm">Request Whitepaper</a>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-d)', fontFamily: 'var(--font-m)' }}>
+              No existing system combines all 13 signals into one self-improving stack with meta-orchestration.
+            </span>
+          </div>
+        </div>
+      </Rv>
+
       {/* Tier comparison */}
-      <Rv delay={160}>
+      <Rv delay={200}>
         <div style={{ marginBottom: '1.5rem' }}>
           <h2 style={{ fontSize: '1.2rem', marginBottom: 14 }}>Trader Workflows</h2>
           <div className="bento bento-4">
