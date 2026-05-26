@@ -77,7 +77,6 @@ function Sidebar({ route }) {
     { section: 'Platform' },
     { id: 'neurofusion', label: 'NeuroFusion', icon: 'bolt', gold: true },
     { id: 'architecture', label: 'Architecture', icon: 'cube' },
-    { id: 'features', label: 'Upcoming', icon: 'rocket' },
     { section: 'Business' },
     { id: 'compare', label: 'Compare', icon: 'users' },
     { id: 'pricing', label: 'Pricing', icon: 'tag' },
