@@ -75,6 +75,7 @@ function Sidebar({ route }) {
     { id: 'backtesting', label: 'Backtesting', icon: 'beaker' },
     { id: 'performance', label: 'Performance', icon: 'chart' },
     { section: 'Platform' },
+    { id: 'walkthrough', label: 'Walkthrough', icon: 'rocket' },
     { id: 'neurofusion', label: 'NeuroFusion', icon: 'bolt', gold: true },
     { id: 'architecture', label: 'Architecture', icon: 'cube' },
     { section: 'Business' },
